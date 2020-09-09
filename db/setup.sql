@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS shanodin_commands;
-CREATE DATABASE shanodin_commands;
+DROP DATABASE IF EXISTS shanodin;
+CREATE DATABASE shanodin;

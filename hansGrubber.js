@@ -1,6 +1,5 @@
 const tmi = require('tmi.js');
-const dbConfig = require('./knexfile');
-const knex = require('knex')(dbConfig);
+const { callCommand } = require('./controllers/commands');
 
 const opts = {
   connection: {
@@ -21,27 +20,14 @@ onMessageHandler = (target, context, msg, self) => {
   if (msg[0] !== '!') return;
 
   const commandName = msg.split(' ')[0].slice(1);
-
-  callCommand(target, commandName);
+  callCommand(target, commandName).then(command_text =>
+    client.say(target, command_text)
+  );
 };
 
 onConnectedHandler = (addr, port) => {
   console.log(`* Connected to ${addr}:${port}`);
 };
-
-callCommand = (target, command_name) => {
-  return knex('commands')
-    .select('command_text')
-    .where({ command_name })
-    .then(res => {
-      if (!res.length)
-        client.say(target, `Commmand !${command_name} does not exist`);
-      else client.say(target, res[0].command_text);
-    })
-    .catch(err => console.log(err));
-};
-
-addNewCommand = (command, message) => {};
 
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);

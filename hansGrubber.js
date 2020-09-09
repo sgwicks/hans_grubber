@@ -2,10 +2,10 @@ const tmi = require('tmi.js');
 
 const opts = {
   identity: {
-    username: 'glaivemaster',
-    password: 'oauth:2soou84w072zq5aqkowq9dvm8o3v9q',
+    username: 'beelzegrubbot',
+    password: 'oauth:th5nxylvhfrowm59io663iyohm27qs',
   },
-  channels: ['glaivemaster'],
+  channels: ['shanodin'],
 };
 
 const client = new tmi.client(opts);

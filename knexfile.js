@@ -1,7 +1,7 @@
 const { user, password } = require('./user');
 
 module.exports = {
-  client: 'postgresql',
+  client: 'pg',
   connection: {
     database: 'shanodin',
     user,

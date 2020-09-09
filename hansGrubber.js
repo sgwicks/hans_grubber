@@ -23,13 +23,6 @@ onMessageHandler = (target, context, msg, self) => {
   const commandName = msg.split(' ')[0].slice(1);
 
   callCommand(target, commandName);
-
-  // if (commandName === '!bgbot') {
-  //   client.say(target, 'Hello World');
-  //   console.log(`* Executed ${commandName} command`);
-  // } else {
-  //   console.log(`* Unknown command ${commandName}`);
-  // }
 };
 
 onConnectedHandler = (addr, port) => {
@@ -40,7 +33,11 @@ callCommand = (target, command_name) => {
   return knex('commands')
     .select('command_text')
     .where({ command_name })
-    .then(([{ command_text }]) => client.say(target, command_text))
+    .then(res => {
+      if (!res.length)
+        client.say(target, `Commmand !${command_name} does not exist`);
+      else client.say(target, res[0].command_text);
+    })
     .catch(err => console.log(err));
 };
 

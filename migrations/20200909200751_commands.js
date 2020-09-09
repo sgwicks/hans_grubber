@@ -5,7 +5,7 @@ exports.up = function (knex) {
     commands.increments();
     commands.string('command_name').unique().notNullable();
     commands.text('command_text').notNullable();
-    commands.integer('command_uses');
+    commands.integer('command_uses').defaultTo(0);
   });
 };
 

@@ -7,5 +7,10 @@ module.exports = {
     user,
     password,
   },
-  migrations: 'db/migrations',
+  migrations: {
+    directory: './db/migrations',
+  },
+  seeds: {
+    directory: './db/seeds',
+  },
 };

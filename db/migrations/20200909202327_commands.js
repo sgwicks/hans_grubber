@@ -1,4 +1,4 @@
-const { connection } = require('../knexfile');
+const { connection } = require('../../knexfile');
 
 exports.up = function (knex) {
   return knex.schema.createTable('commands', commands => {

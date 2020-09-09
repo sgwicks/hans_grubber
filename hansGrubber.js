@@ -19,10 +19,7 @@ onMessageHandler = (target, context, msg, self) => {
   if (self) return;
   if (msg[0] !== '!') return;
 
-  const commandName = msg.split(' ')[0].slice(1);
-  callCommand(target, commandName).then(command_text =>
-    client.say(target, command_text)
-  );
+  callCommand(msg).then(command_text => client.say(target, command_text));
 };
 
 onConnectedHandler = (addr, port) => {

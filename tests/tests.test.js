@@ -1,4 +1,3 @@
-const connection = require('../db/connection');
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const tmi = require('tmi.js');
@@ -33,5 +32,13 @@ describe('onMessageHandler', () => {
 
     expect(callCom).toHaveBeenCalledWith('!hello');
   });
-  describe('addCommand', () => {});
+  describe('callCommand', () => {
+    test('Valid commands return command_text', async () => {
+      const { callCommand } = jest.requireActual('../controllers/commands');
+      const hello = await callCommand('!hello');
+
+      expect(hello).toBe('Hello World');
+    });
+    test.todo('Invalid commands return does not exist');
+  });
 });

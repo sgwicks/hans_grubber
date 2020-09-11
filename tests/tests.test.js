@@ -2,7 +2,7 @@ const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const tmi = require('tmi.js');
 
-jest.mock(tmi.client.say);
+jest.mock('tmi.js');
 jest.mock('../controllers/commands');
 const callCom = commandControllers.callCommand;
 
@@ -23,12 +23,10 @@ describe('onMessageHandler', () => {
 
     expect(callCom).not.toHaveBeenCalled();
   });
-  test('Responds to command messages', () => {
+  test('Responds to command messages', async () => {
     const msg = '!hello';
-    const promise = new Promise(() => 'world');
-    callCom.mockReturnValue(promise);
 
-    hansGrubber.onMessageHandler(null, null, msg, null);
+    await hansGrubber.onMessageHandler(null, null, msg, null);
 
     expect(callCom).toHaveBeenCalledWith('!hello');
   });

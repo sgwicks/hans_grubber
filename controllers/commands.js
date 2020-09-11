@@ -1,7 +1,9 @@
 const { fetchCommand } = require('../models/commands');
 
-exports.callCommand = msg => {
-  return fetchCommand(msg)
-    .then(command_text => command_text)
-    .catch(err => console.log(err));
+exports.callCommand = async msg => {
+  const command_text = await fetchCommand(msg);
+
+  return command_text;
 };
+
+exports.addCommand = msg => {};

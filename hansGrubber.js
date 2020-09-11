@@ -15,13 +15,17 @@ const opts = {
 
 const client = new tmi.client(opts);
 
-onMessageHandler = (target, context, msg, self) => {
+onMessageHandler = async (target, context, msg, self) => {
   if (self) return;
   if (msg[0] !== '!') return;
 
-  callCommand(msg)
-    .then(command_text => client.say(target, command_text))
-    .catch(err => console.log(err));
+  try {
+    const command_text = await callCommand(msg);
+    client.say(target, command_text);
+  } catch (err) {
+    console.log(err);
+    client.say(target, 'Beep boop, something went wrong');
+  }
 };
 
 onConnectedHandler = (addr, port) => {

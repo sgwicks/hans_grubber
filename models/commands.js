@@ -6,7 +6,7 @@ exports.fetchCommand = async msg => {
     .select('command_text')
     .where({ command_name })
     .then(res => {
-      if (!res.length) return `Commmand !${command_name} does not exist`;
+      if (!res.length) return `Command !${command_name} does not exist`;
       else return res[0].command_text;
     });
 

@@ -5,6 +5,7 @@ const tmi = require('tmi.js');
 jest.mock('tmi.js');
 jest.mock('../controllers/commands');
 const callCom = commandControllers.callCommand;
+const { callCommand } = jest.requireActual('../controllers/commands');
 
 afterEach(() => {
   callCom.mockReset();
@@ -18,11 +19,13 @@ describe('onMessageHandler', () => {
 
     expect(callCom).not.toHaveBeenCalled();
   });
+
   test('Ignores messages from self', () => {
     hansGrubber.onMessageHandler(null, null, null, true);
 
     expect(callCom).not.toHaveBeenCalled();
   });
+
   test('Responds to command messages', async () => {
     const msg = '!hello';
 
@@ -30,13 +33,18 @@ describe('onMessageHandler', () => {
 
     expect(callCom).toHaveBeenCalledWith('!hello');
   });
+
   describe('callCommand', () => {
     test('Valid commands return command_text', async () => {
-      const { callCommand } = jest.requireActual('../controllers/commands');
       const hello = await callCommand('!hello');
 
       expect(hello).toBe('Hello World');
     });
-    test.todo('Invalid commands return does not exist');
+
+    test('Invalid commands return does not exist', async () => {
+      const noHello = await callCommand('!goodbye');
+
+      expect(noHello).toBe('Command !goodbye does not exist');
+    });
   });
 });

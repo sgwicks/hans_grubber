@@ -5,6 +5,7 @@
   "main": "hansGrubber.js",
   "scripts": {
     "test": "jest test --watch",
+    "reset-db": "psql -f db/setup.sql",
     "migrate-test": "NODE_ENV=test knex migrate:latest",
     "seed-test": "NODE_ENV=test knex seed:run",
     "rollback-test": "NODE_ENV=test knex migrate:rollback",

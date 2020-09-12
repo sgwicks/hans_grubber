@@ -4,7 +4,13 @@
   "description": "",
   "main": "hansGrubber.js",
   "scripts": {
-    "test": "jest test --watch"
+    "test": "jest test --watch",
+    "migrate-test": "NODE_ENV=test knex migrate:latest",
+    "seed-test": "NODE_ENV=test knex seed:run",
+    "rollback-test": "NODE_ENV=test knex migrate:rollback",
+    "migrate-dev": "NODE_ENV=dev knex migrate:latest",
+    "seed-dev": "NODE_ENV=dev knex seed:run",
+    "rollback:dev": "NODE_ENV=dev knex migrate:rollback"
   },
   "keywords": [],
   "author": "",

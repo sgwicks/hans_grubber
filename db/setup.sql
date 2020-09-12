@@ -1,2 +1,5 @@
+DROP DATABASE IF EXISTS shanodin_test;
 DROP DATABASE IF EXISTS shanodin;
+
+CREATE DATABASE shanodin_test;
 CREATE DATABASE shanodin;

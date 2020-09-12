@@ -46,5 +46,12 @@ describe('onMessageHandler', () => {
 
       expect(noHello).toBe('Command !goodbye does not exist');
     });
+
+    test.todo('Increments call_count');
+  });
+
+  describe('addCommand', () => {
+    test.todo('Recognises new command_name');
+    test.todo('Recognises new command_text');
   });
 });

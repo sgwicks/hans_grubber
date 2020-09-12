@@ -1,4 +1,4 @@
-const commands_data = require('../data/commands');
+const { commands } = require('../data/index.js');
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
@@ -6,6 +6,6 @@ exports.seed = function (knex) {
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex('commands').insert(commands_data);
+      return knex('commands').insert(commands);
     });
 };

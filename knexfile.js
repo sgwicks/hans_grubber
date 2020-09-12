@@ -9,6 +9,13 @@ const baseConfig = {
   seeds: {
     directory: './db/seeds',
   },
+  log: {
+    warn(message) {
+      if (message.includes('FS-related')) {
+        return;
+      }
+    },
+  },
 };
 
 const envConfig = {

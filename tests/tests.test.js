@@ -1,14 +1,23 @@
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const tmi = require('tmi.js');
+const connection = require('../db/connection');
 
 jest.mock('tmi.js');
 jest.mock('../controllers/commands');
 const callCom = commandControllers.callCommand;
 const { callCommand } = jest.requireActual('../controllers/commands');
 
+beforeEach(() => {
+  return connection.seed.run();
+});
+
 afterEach(() => {
   callCom.mockReset();
+});
+
+afterAll(() => {
+  return connection.destroy();
 });
 
 describe('onMessageHandler', () => {

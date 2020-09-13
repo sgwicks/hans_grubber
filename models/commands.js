@@ -5,12 +5,21 @@ exports.fetchCommand = async msg => {
   const command_text = await connection('commands')
     .select('command_text')
     .where({ command_name })
-    .then(res => {
+    .then(async res => {
       if (!res.length) return `Command !${command_name} does not exist`;
-      else return res[0].command_text;
+      else {
+        await incrementCommand(command_name);
+        return res[0].command_text;
+      }
     });
 
   return command_text;
+};
+
+const incrementCommand = command_name => {
+  return connection('commands')
+    .where({ command_name })
+    .increment({ command_uses: 1 });
 };
 
 exports.createCommand = msg => {

@@ -56,7 +56,16 @@ describe('onMessageHandler', () => {
       expect(noHello).toBe('Command !goodbye does not exist');
     });
 
-    test.todo('Increments call_count');
+    test('Increments call_count', async () => {
+      await callCommand('!hello');
+
+      const command_uses = await connection('commands')
+        .select('command_uses')
+        .where({ command_name: 'hello' })
+        .then(res => res[0].command_uses);
+
+      expect(command_uses).toBe(1);
+    });
   });
 
   describe('addCommand', () => {

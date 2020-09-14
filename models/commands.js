@@ -28,7 +28,13 @@ exports.createCommand = msg => {
   const command_name = msgArray[1];
   const command_text = msgArray.splice(2).join(' ');
 
-  return connection('commands').insert({ command_name, command_text });
+  try {
+    connection('commands').insert({ command_name, command_text });
+    return `Added command !${command_name} -> "${command_text}"`;
+  } catch (err) {
+    console.log(err);
+    return 'Failed to add command, try again later';
+  }
 };
 
 // !addcommand morning morning folks

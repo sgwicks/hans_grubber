@@ -46,6 +46,12 @@ describe('onMessageHandler', () => {
     expect(callCom).toHaveBeenCalledWith('!hello');
   });
 
+  test.todo('Responds to !addcommand');
+  test.todo('Responds to !editcommand');
+  test.todo('Responds to !deletecommand');
+  test.todo('Responds to !commandinfo');
+  test.todo('Responds to !commandlist');
+
   describe('callCommand', () => {
     test('Valid commands return command_text', async () => {
       const hello = await callCommand('!hello');
@@ -84,6 +90,7 @@ describe('onMessageHandler', () => {
 
       expect(command_name).toBe('butter');
     });
+
     test('Recognises new command_text', async () => {
       const msg = '!addcommand butter yum butter';
 
@@ -96,6 +103,18 @@ describe('onMessageHandler', () => {
 
       expect(command_text).toBe('yum butter');
     });
+
+    test.only('Returns a chat message', async () => {
+      const msg = '!addcommand butter yum butter';
+
+      const messageAdded = await addCommand(msg);
+
+      expect(messageAdded).toBe('Added command !butter -> "yum butter"');
+    });
+
+    test.todo('ERROR: command already exists');
+
+    test.todo('ERROR: something else went wrong');
   });
 
   xdescribe('editCommand', () => {});

@@ -236,7 +236,13 @@ describe('onMessageHandler', () => {
       expect(isDeleted.length).toBe(0);
     });
 
-    test.todo('Returns a chat message');
+    test('Returns a chat message', async () => {
+      const msg = '!deletecommand test';
+
+      const deletedCommand = await deleteCommand(msg);
+
+      expect(deletedCommand).toBe('Deleted command !test');
+    });
 
     test.todo('ERROR: Command does not exist');
 

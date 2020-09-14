@@ -74,11 +74,12 @@ exports.updateCommand = async msg => {
   return;
 };
 
-exports.delCommand = msg => {
+exports.delCommand = async msg => {
   const { command_name } = splitCommand(msg);
 
   try {
-    return connection('commands').where({ command_name }).del();
+    await connection('commands').where({ command_name }).del();
+    return `Deleted command !${command_name}`;
   } catch (err) {
     console.log(err);
   }

@@ -1,12 +1,15 @@
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
+const { createCommand } = require('../models/commands');
 const tmi = require('tmi.js');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
 jest.mock('../controllers/commands');
 const callCom = commandControllers.callCommand;
-const { callCommand } = jest.requireActual('../controllers/commands');
+const { callCommand, addCommand } = jest.requireActual(
+  '../controllers/commands'
+);
 
 beforeEach(() => {
   return connection.seed.run();
@@ -69,7 +72,37 @@ describe('onMessageHandler', () => {
   });
 
   describe('addCommand', () => {
-    test.todo('Recognises new command_name');
-    test.todo('Recognises new command_text');
+    test('Recognises new command_name', async () => {
+      const msg = '!addcommand butter yum butter';
+
+      await addCommand(msg);
+
+      const command_name = await connection('commands')
+        .select('command_name')
+        .where({ command_name: 'butter' })
+        .then(res => res[0].command_name);
+
+      expect(command_name).toBe('butter');
+    });
+    test('Recognises new command_text', async () => {
+      const msg = '!addcommand butter yum butter';
+
+      await addCommand(msg);
+
+      const command_text = await connection('commands')
+        .select('command_text')
+        .where({ command_name: 'butter' })
+        .then(res => res[0].command_text);
+
+      expect(command_text).toBe('yum butter');
+    });
   });
+
+  xdescribe('editCommand', () => {});
+
+  xdescribe('deleteCommand', () => {});
+
+  xdescribe('!info', () => {});
+
+  xdescribe('!commandlist', () => {});
 });

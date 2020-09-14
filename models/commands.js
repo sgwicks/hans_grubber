@@ -26,9 +26,9 @@ exports.createCommand = msg => {
   const msgArray = msg.split(' ');
 
   const command_name = msgArray[1];
-  const command_text = msgArray.splice(0, 2).join(' ');
+  const command_text = msgArray.splice(2).join(' ');
 
-  return connection('commands');
+  return connection('commands').insert({ command_name, command_text });
 };
 
 // !addcommand morning morning folks

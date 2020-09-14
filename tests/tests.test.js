@@ -8,6 +8,7 @@ jest.mock('tmi.js');
 jest.mock('../controllers/commands');
 const mockCallCommand = commandControllers.callCommand;
 const mockAddCommand = commandControllers.addCommand;
+const mockEditCommand = commandControllers.editCommand;
 const { callCommand, addCommand } = jest.requireActual(
   '../controllers/commands'
 );
@@ -19,6 +20,7 @@ beforeEach(() => {
 afterEach(() => {
   mockCallCommand.mockReset();
   mockAddCommand.mockReset();
+  mockEditCommand.mockReset();
 });
 
 afterAll(() => {
@@ -56,7 +58,14 @@ describe('onMessageHandler', () => {
 
     expect(mockAddCommand).toHaveBeenCalledWith(msg);
   });
-  test.todo('Responds to !editcommand');
+
+  test('Responds to !editcommand', async () => {
+    const msg = '!editcommand hello hello user';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockEditCommand).toHaveBeenCalledWith(msg);
+  });
   test.todo('Responds to !deletecommand');
   test.todo('Responds to !commandinfo');
   test.todo('Responds to !commandlist');

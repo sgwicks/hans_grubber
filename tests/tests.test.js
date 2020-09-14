@@ -2,6 +2,7 @@ const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const tmi = require('tmi.js');
 const connection = require('../db/connection');
+const { del } = require('../db/connection');
 
 jest.mock('tmi.js');
 
@@ -244,9 +245,23 @@ describe('onMessageHandler', () => {
       expect(deletedCommand).toBe('Deleted command !test');
     });
 
-    test.todo('ERROR: Command does not exist');
+    test('ERROR: Command does not exist', async () => {
+      const msg = '!deletecommand butter';
 
-    test.todo('ERROR: No command_name specified');
+      const errorText = await deleteCommand(msg);
+
+      expect(errorText).toBe(
+        'Delete command failed: command !butter does not exist'
+      );
+    });
+
+    test('ERROR: No command_name specified', async () => {
+      const msg = '!deletecommand ';
+
+      const errorText = await deleteCommand(msg);
+
+      expect(errorText).toBe('Delete command failed: no command name provided');
+    });
   });
 
   xdescribe('!info', () => {});

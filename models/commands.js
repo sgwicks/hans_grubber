@@ -77,8 +77,18 @@ exports.updateCommand = async msg => {
 exports.delCommand = async msg => {
   const { command_name } = splitCommand(msg);
 
+  if (!command_name) return `Delete command failed: no command name provided`;
+
   try {
+    const commandExists = await connection('commands')
+      .select()
+      .where({ command_name });
+
+    if (!commandExists.length)
+      return `Delete command failed: command !${command_name} does not exist`;
+
     await connection('commands').where({ command_name }).del();
+
     return `Deleted command !${command_name}`;
   } catch (err) {
     console.log(err);

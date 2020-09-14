@@ -9,7 +9,7 @@ jest.mock('../controllers/commands');
 const mockCallCommand = commandControllers.callCommand;
 const mockAddCommand = commandControllers.addCommand;
 const mockEditCommand = commandControllers.editCommand;
-const { callCommand, addCommand } = jest.requireActual(
+const { callCommand, addCommand, editCommand } = jest.requireActual(
   '../controllers/commands'
 );
 
@@ -157,7 +157,24 @@ describe('onMessageHandler', () => {
     });
   });
 
-  xdescribe('editCommand', () => {});
+  describe('editCommand', () => {
+    test('Edits command in database', async () => {
+      const msg = '!editcommand hello goodbye world';
+
+      await editCommand(msg);
+
+      const command_text = await connection('commands')
+        .select('command_text')
+        .where({ command_name: 'hello' })
+        .then(res => res[0].command_text);
+
+      expect(command_text).toBe('goodbye world');
+    });
+    test.todo('Returns a chat message');
+    test.todo('ERROR: Command does not exist');
+    test.todo('ERROR: undefined command_text');
+    test.todo('ERROR: undefined command_name');
+  });
 
   xdescribe('deleteCommand', () => {});
 

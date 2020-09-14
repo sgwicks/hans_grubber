@@ -1,13 +1,19 @@
-const { fetchCommand, createCommand } = require('../models/commands');
+const {
+  selectCommand,
+  insertCommand,
+  updateCommand,
+} = require('../models/commands');
 
 exports.callCommand = async msg => {
-  const command_text = await fetchCommand(msg);
+  const command_text = await selectCommand(msg);
 
   return command_text;
 };
 
 exports.addCommand = msg => {
-  return createCommand(msg);
+  return insertCommand(msg);
 };
 
-exports.editCommand = msg => {};
+exports.editCommand = msg => {
+  return updateCommand(msg);
+};

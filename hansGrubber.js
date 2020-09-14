@@ -35,9 +35,6 @@ onMessageHandler = async (target, context, msg, self) => {
       default:
         response = await callCommand(msg);
     }
-    // if (command === '!addcommand') response = await addCommand(msg);
-    // else if (command === '!editcommand') response = await editCommand(msg);
-    // else response = await callCommand(msg);
   } catch (err) {
     console.log(err);
     response = 'Beep boop, something went wrong';

@@ -1,6 +1,15 @@
 const connection = require('../db/connection');
 
-exports.fetchCommand = async msg => {
+const splitCommand = msg => {
+  const msgArray = msg.split(' ');
+
+  const command_name = msgArray[1];
+  const command_text = msgArray.splice(2).join(' ');
+
+  return { command_name, command_text };
+};
+
+exports.selectCommand = async msg => {
   const command_name = msg.split(' ')[0].slice(1);
   const command_text = await connection('commands')
     .select('command_text')
@@ -22,11 +31,8 @@ const incrementCommand = command_name => {
     .increment({ command_uses: 1 });
 };
 
-exports.createCommand = async msg => {
-  const msgArray = msg.split(' ');
-
-  const command_name = msgArray[1];
-  const command_text = msgArray.splice(2).join(' ');
+exports.insertCommand = async msg => {
+  const { command_name, command_text } = splitCommand(msg);
 
   if (!command_name) return 'Add command failed: no command name provided';
   if (!command_text) return 'Add command failed: no command text provided';
@@ -43,4 +49,12 @@ exports.createCommand = async msg => {
         return `Add command failed: code ${err.code}`;
     }
   }
+};
+
+exports.updateCommand = async msg => {
+  const { command_name, command_text } = splitCommand(msg);
+
+  await connection('commands').where({ command_name }).update({ command_text });
+
+  return;
 };

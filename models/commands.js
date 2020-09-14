@@ -54,10 +54,18 @@ exports.insertCommand = async msg => {
 exports.updateCommand = async msg => {
   const { command_name, command_text } = splitCommand(msg);
 
+  if (!command_name) return 'Edit command failed: no command name provided';
+  if (!command_text) return `Edit command failed: no command text provided`;
+
   try {
-    await connection('commands')
+    // ['command_text] returns updated text
+    const exists = await connection('commands')
       .where({ command_name })
-      .update({ command_text });
+      .update({ command_text }, ['command_text']);
+
+    if (!exists.length)
+      return `Edit command failed: command !${command_name} does not exist`;
+
     return `Updated command !${command_name} -> "${command_text}"`;
   } catch (err) {
     console.log(err);

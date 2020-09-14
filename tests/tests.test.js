@@ -184,11 +184,31 @@ describe('onMessageHandler', () => {
       );
     });
 
-    test.todo('ERROR: Command does not exist');
+    test('ERROR: Command does not exist', async () => {
+      const msg = '!editcommand noncommand not a command';
 
-    test.todo('ERROR: undefined command_text');
+      const errorText = await editCommand(msg);
 
-    test.todo('ERROR: undefined command_name');
+      expect(errorText).toBe(
+        'Edit command failed: command !noncommand does not exist'
+      );
+    });
+
+    test('ERROR: undefined command_text', async () => {
+      const msg = '!editcommand hello';
+
+      const errorText = await editCommand(msg);
+
+      expect(errorText).toBe('Edit command failed: no command text provided');
+    });
+
+    test('ERROR: undefined command_name', async () => {
+      const msg = '!editcommand ';
+
+      const errorText = await editCommand(msg);
+
+      expect(errorText).toBe('Edit command failed: no command name provided');
+    });
   });
 
   xdescribe('deleteCommand', () => {});

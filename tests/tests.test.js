@@ -66,8 +66,11 @@ describe('onMessageHandler', () => {
 
     expect(mockEditCommand).toHaveBeenCalledWith(msg);
   });
+
   test.todo('Responds to !deletecommand');
+
   test.todo('Responds to !commandinfo');
+
   test.todo('Responds to !commandlist');
 
   describe('callCommand', () => {
@@ -170,9 +173,21 @@ describe('onMessageHandler', () => {
 
       expect(command_text).toBe('goodbye world');
     });
-    test.todo('Returns a chat message');
+
+    test('Returns a chat message', async () => {
+      const msg = '!editcommand hello return a chat message';
+
+      const editedMessage = await editCommand(msg);
+
+      expect(editedMessage).toBe(
+        'Updated command !hello -> "return a chat message"'
+      );
+    });
+
     test.todo('ERROR: Command does not exist');
+
     test.todo('ERROR: undefined command_text');
+
     test.todo('ERROR: undefined command_name');
   });
 

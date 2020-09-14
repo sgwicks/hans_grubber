@@ -54,7 +54,14 @@ exports.insertCommand = async msg => {
 exports.updateCommand = async msg => {
   const { command_name, command_text } = splitCommand(msg);
 
-  await connection('commands').where({ command_name }).update({ command_text });
+  try {
+    await connection('commands')
+      .where({ command_name })
+      .update({ command_text });
+    return `Updated command !${command_name} -> "${command_text}"`;
+  } catch (err) {
+    console.log(err);
+  }
 
   return;
 };

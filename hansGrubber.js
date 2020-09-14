@@ -4,18 +4,7 @@ const {
   addCommand,
   editCommand,
 } = require('./controllers/commands');
-
-const opts = {
-  connection: {
-    cluster: 'aws',
-    reconnect: true,
-  },
-  identity: {
-    username: 'beelzegrubbot',
-    password: 'oauth:bxezz2u9zutn9ihak1lj2jgh451lxr',
-  },
-  channels: ['shanodin'],
-};
+const opts = require('./opts');
 
 const client = new tmi.client(opts);
 

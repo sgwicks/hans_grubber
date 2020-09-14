@@ -9,9 +9,13 @@ jest.mock('../controllers/commands');
 const mockCallCommand = commandControllers.callCommand;
 const mockAddCommand = commandControllers.addCommand;
 const mockEditCommand = commandControllers.editCommand;
-const { callCommand, addCommand, editCommand } = jest.requireActual(
-  '../controllers/commands'
-);
+const mockDeleteCommand = commandControllers.deleteCommand;
+const {
+  callCommand,
+  addCommand,
+  editCommand,
+  deleteCommand,
+} = jest.requireActual('../controllers/commands');
 
 beforeEach(() => {
   return connection.seed.run();
@@ -21,6 +25,7 @@ afterEach(() => {
   mockCallCommand.mockReset();
   mockAddCommand.mockReset();
   mockEditCommand.mockReset();
+  mockDeleteCommand.mockReset();
 });
 
 afterAll(() => {
@@ -67,7 +72,13 @@ describe('onMessageHandler', () => {
     expect(mockEditCommand).toHaveBeenCalledWith(msg);
   });
 
-  test.todo('Responds to !deletecommand');
+  test('Responds to !deletecommand', async () => {
+    const msg = '!deletecommand test';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockDeleteCommand).toHaveBeenCalledWith(msg);
+  });
 
   test.todo('Responds to !commandinfo');
 
@@ -211,7 +222,26 @@ describe('onMessageHandler', () => {
     });
   });
 
-  xdescribe('deleteCommand', () => {});
+  describe('deleteCommand', () => {
+    test('Removes command from database', async () => {
+      const msg = '!deletecommand test';
+
+      await deleteCommand(msg);
+
+      const isDeleted = await connection('commands')
+        .select('command_name')
+        .where({ command_name: 'test' })
+        .then(res => res);
+
+      expect(isDeleted.length).toBe(0);
+    });
+
+    test.todo('Returns a chat message');
+
+    test.todo('ERROR: Command does not exist');
+
+    test.todo('ERROR: No command_name specified');
+  });
 
   xdescribe('!info', () => {});
 

@@ -73,3 +73,15 @@ exports.updateCommand = async msg => {
 
   return;
 };
+
+exports.delCommand = msg => {
+  const { command_name } = splitCommand(msg);
+
+  try {
+    return connection('commands').where({ command_name }).del();
+  } catch (err) {
+    console.log(err);
+  }
+
+  return 'Delete command';
+};

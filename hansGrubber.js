@@ -3,6 +3,7 @@ const {
   callCommand,
   addCommand,
   editCommand,
+  deleteCommand,
 } = require('./controllers/commands');
 const opts = require('./opts');
 
@@ -21,6 +22,8 @@ onMessageHandler = async (target, context, msg, self) => {
         response = await addCommand(msg);
       case '!editcommand':
         response = await editCommand(msg);
+      case '!deletecommand':
+        response = await deleteCommand(msg);
       default:
         response = await callCommand(msg);
     }

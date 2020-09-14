@@ -1,12 +1,13 @@
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
-const { createCommand } = require('../models/commands');
 const tmi = require('tmi.js');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
+
 jest.mock('../controllers/commands');
-const callCom = commandControllers.callCommand;
+const mockCallCommand = commandControllers.callCommand;
+const mockAddCommand = commandControllers.addCommand;
 const { callCommand, addCommand } = jest.requireActual(
   '../controllers/commands'
 );
@@ -16,7 +17,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  callCom.mockReset();
+  mockCallCommand.mockReset();
+  mockAddCommand.mockReset();
 });
 
 afterAll(() => {
@@ -29,24 +31,31 @@ describe('onMessageHandler', () => {
 
     hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(callCom).not.toHaveBeenCalled();
+    expect(mockCallCommand).not.toHaveBeenCalled();
   });
 
   test('Ignores messages from self', () => {
     hansGrubber.onMessageHandler(null, null, null, true);
 
-    expect(callCom).not.toHaveBeenCalled();
+    expect(mockCallCommand).not.toHaveBeenCalled();
   });
 
-  test('Responds to command messages', async () => {
+  test('Responds to command call', async () => {
     const msg = '!hello';
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(callCom).toHaveBeenCalledWith('!hello');
+    expect(mockCallCommand).toHaveBeenCalledWith('!hello');
   });
 
-  test.todo('Responds to !addcommand');
+  test('Responds to !addcommand', async () => {
+    jest.requireActual('../controllers/commands');
+    const msg = '!addcommand butter yum butter';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockAddCommand).toHaveBeenCalledWith(msg);
+  });
   test.todo('Responds to !editcommand');
   test.todo('Responds to !deletecommand');
   test.todo('Responds to !commandinfo');
@@ -137,8 +146,6 @@ describe('onMessageHandler', () => {
 
       expect(messageError).toBe('Add command failed: no command name provided');
     });
-
-    test.todo('ERROR: something else went wrong');
   });
 
   xdescribe('editCommand', () => {});

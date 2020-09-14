@@ -39,6 +39,7 @@ exports.createCommand = async msg => {
       case '23505':
         return `Add command failed: command !${command_name} already exists`;
       default:
+        console.log(err);
         return `Add command failed: code ${err.code}`;
     }
   }

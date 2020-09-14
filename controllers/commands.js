@@ -6,6 +6,6 @@ exports.callCommand = async msg => {
   return command_text;
 };
 
-exports.addCommand = msg => {
+exports.addCommand = async msg => {
   return createCommand(msg);
 };

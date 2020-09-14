@@ -1,5 +1,5 @@
 const tmi = require('tmi.js');
-const { callCommand } = require('./controllers/commands');
+const { callCommand, addCommand } = require('./controllers/commands');
 
 const opts = {
   connection: {
@@ -19,12 +19,22 @@ onMessageHandler = async (target, context, msg, self) => {
   if (self) return;
   if (msg[0] !== '!') return;
 
+  if (msg.startsWith('!addcommand')) {
+    try {
+      const commandAdded = await addCommand(msg);
+      return client.say(target, commandAdded);
+    } catch (err) {
+      console.log(err);
+      return client.say(target, 'Beep boop, something went wrong');
+    }
+  }
+
   try {
     const command_text = await callCommand(msg);
-    client.say(target, command_text);
+    return client.say(target, command_text);
   } catch (err) {
     console.log(err);
-    client.say(target, 'Beep boop, something went wrong');
+    return client.say(target, 'Beep boop, something went wrong');
   }
 };
 

@@ -104,7 +104,7 @@ describe('onMessageHandler', () => {
       expect(command_text).toBe('yum butter');
     });
 
-    test.only('Returns a chat message', async () => {
+    test('Returns a chat message', async () => {
       const msg = '!addcommand butter yum butter';
 
       const messageAdded = await addCommand(msg);
@@ -112,7 +112,25 @@ describe('onMessageHandler', () => {
       expect(messageAdded).toBe('Added command !butter -> "yum butter"');
     });
 
-    test.todo('ERROR: command already exists');
+    test('ERROR: command already exists', async () => {
+      const msg = '!addcommand hello Hello Test World';
+
+      const messageError = await addCommand(msg);
+
+      expect(messageError).toBe(
+        'Add command failed: command !hello already exists'
+      );
+    });
+
+    test('ERROR: undefined command_text', async () => {
+      const msg = '!addcommand butter';
+
+      const messageError = await addCommand(msg);
+
+      expect(messageError).toBe('Add command failed: no command text provided');
+    });
+
+    test.todo('ERROR: undefined command_text');
 
     test.todo('ERROR: something else went wrong');
   });

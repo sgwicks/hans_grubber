@@ -22,19 +22,23 @@ const incrementCommand = command_name => {
     .increment({ command_uses: 1 });
 };
 
-exports.createCommand = msg => {
+exports.createCommand = async msg => {
   const msgArray = msg.split(' ');
 
   const command_name = msgArray[1];
   const command_text = msgArray.splice(2).join(' ');
 
+  if (!command_text) return 'Add command failed: no command text provided';
+
   try {
-    connection('commands').insert({ command_name, command_text });
+    await connection('commands').insert({ command_name, command_text });
     return `Added command !${command_name} -> "${command_text}"`;
   } catch (err) {
-    console.log(err);
-    return 'Failed to add command, try again later';
+    switch (err.code) {
+      case '23505':
+        return `Add command failed: command !${command_name} already exists`;
+      default:
+        return `Add command failed: code ${err.code}`;
+    }
   }
 };
-
-// !addcommand morning morning folks

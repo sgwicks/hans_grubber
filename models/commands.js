@@ -28,6 +28,7 @@ exports.createCommand = async msg => {
   const command_name = msgArray[1];
   const command_text = msgArray.splice(2).join(' ');
 
+  if (!command_name) return 'Add command failed: no command name provided';
   if (!command_text) return 'Add command failed: no command text provided';
 
   try {

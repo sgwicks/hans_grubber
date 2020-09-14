@@ -130,7 +130,13 @@ describe('onMessageHandler', () => {
       expect(messageError).toBe('Add command failed: no command text provided');
     });
 
-    test.todo('ERROR: undefined command_text');
+    test('ERROR: undefined command_name', async () => {
+      const msg = '!addcommand';
+
+      const messageError = await addCommand(msg);
+
+      expect(messageError).toBe('Add command failed: no command name provided');
+    });
 
     test.todo('ERROR: something else went wrong');
   });

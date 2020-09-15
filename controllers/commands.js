@@ -33,4 +33,6 @@ exports.commandInfo = async msg => {
   return `Command !${command_name} has been used ${command_uses} times`;
 };
 
-exports.commandList = () => {};
+exports.commandList = () => {
+  return 'List of commands: http://18.130.224.118:8080/commandlist';
+};

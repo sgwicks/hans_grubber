@@ -18,6 +18,7 @@ const {
   editCommand,
   deleteCommand,
   commandInfo,
+  commandList,
 } = jest.requireActual('../controllers/commands');
 
 beforeEach(() => {
@@ -91,7 +92,7 @@ describe('onMessageHandler', () => {
     expect(mockCommandInfo).toHaveBeenCalledWith(msg);
   });
 
-  test.only('Responds to !commandlist', async () => {
+  test('Responds to !commandlist', async () => {
     const msg = '!commandlist';
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
@@ -299,4 +300,14 @@ describe('!commandinfo', () => {
   });
 });
 
-xdescribe('!commandlist', () => {});
+describe('!commandlist', () => {
+  test.only('Responds with link to command list endpoint', async () => {
+    const msg = '!commandlist';
+
+    const commandlist = await commandList(msg);
+
+    expect(commandlist).toBe(
+      'List of commands: http://18.130.224.118:8080/commandlist'
+    );
+  });
+});

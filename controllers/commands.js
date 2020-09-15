@@ -22,3 +22,7 @@ exports.editCommand = msg => {
 exports.deleteCommand = msg => {
   return delCommand(msg);
 };
+
+exports.commandInfo = msg => {
+  return selectCommand(msg);
+};

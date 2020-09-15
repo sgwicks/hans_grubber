@@ -2,7 +2,6 @@ const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const tmi = require('tmi.js');
 const connection = require('../db/connection');
-const { del } = require('../db/connection');
 
 jest.mock('tmi.js');
 
@@ -11,11 +10,13 @@ const mockCallCommand = commandControllers.callCommand;
 const mockAddCommand = commandControllers.addCommand;
 const mockEditCommand = commandControllers.editCommand;
 const mockDeleteCommand = commandControllers.deleteCommand;
+const mockCommandInfo = commandControllers.commandInfo;
 const {
   callCommand,
   addCommand,
   editCommand,
   deleteCommand,
+  commandInfo,
 } = jest.requireActual('../controllers/commands');
 
 beforeEach(() => {
@@ -81,7 +82,13 @@ describe('onMessageHandler', () => {
     expect(mockDeleteCommand).toHaveBeenCalledWith(msg);
   });
 
-  test.todo('Responds to !commandinfo');
+  test('Responds to !commandinfo', async () => {
+    const msg = '!commandinfo hello';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockCommandInfo).toHaveBeenCalledWith(msg);
+  });
 
   test.todo('Responds to !commandlist');
 });
@@ -265,6 +272,6 @@ describe('deleteCommand', () => {
   });
 });
 
-xdescribe('!info', () => {});
+xdescribe('!commandinfo', () => {});
 
 xdescribe('!commandlist', () => {});

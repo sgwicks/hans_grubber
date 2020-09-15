@@ -6,6 +6,7 @@ const {
   deleteCommand,
   commandInfo,
 } = require('./controllers/commands');
+const { errorLogging } = require('./errors/errors');
 const opts = require('./opts');
 
 const client = new tmi.client(opts);
@@ -31,8 +32,7 @@ onMessageHandler = async (target, context, msg, self) => {
         response = await callCommand(msg);
     }
   } catch (err) {
-    console.log(err);
-    response = 'Beep boop, something went wrong';
+    response = await errorLogging(err);
   } finally {
     return client.say(target, response);
   }

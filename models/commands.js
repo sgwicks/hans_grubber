@@ -1,4 +1,5 @@
 const connection = require('../db/connection');
+const { errorLogging } = require('../errors/errors');
 
 const splitCommand = msg => {
   const msgArray = msg.split(' ');
@@ -17,18 +18,23 @@ const incrementCommand = command_name => {
 
 exports.selectCommand = async msg => {
   const command_name = msg.split(' ')[0].slice(1);
-  const command_text = await connection('commands')
-    .select('command_text')
-    .where({ command_name })
-    .then(async res => {
-      if (!res.length) return `Command !${command_name} does not exist`;
-      else {
-        await incrementCommand(command_name);
-        return res[0].command_text;
-      }
-    });
 
-  return command_text;
+  try {
+    const command_text = await connection('commands')
+      .select('command_text')
+      .where({ command_name })
+      .then(async res => {
+        if (!res.length) return `Command !${command_name} does not exist`;
+        else {
+          await incrementCommand(command_name);
+          return res[0].command_text;
+        }
+      });
+
+    return command_text;
+  } catch (err) {
+    return errorLogging(err);
+  }
 };
 
 exports.insertCommand = async msg => {
@@ -45,8 +51,7 @@ exports.insertCommand = async msg => {
       case '23505':
         return `Add command failed: command !${command_name} already exists`;
       default:
-        console.log(err);
-        return `Add command failed: code ${err.code}`;
+        return errorLogging(err);
     }
   }
 };
@@ -68,7 +73,7 @@ exports.updateCommand = async msg => {
 
     return `Updated command !${command_name} -> "${command_text}"`;
   } catch (err) {
-    console.log(err);
+    return errorLogging(err);
   }
 
   return;
@@ -91,7 +96,7 @@ exports.delCommand = async msg => {
 
     return `Deleted command !${command_name}`;
   } catch (err) {
-    console.log(err);
+    return errorLogging(err);
   }
 
   return 'Delete command';
@@ -109,6 +114,6 @@ exports.selectCommandInfo = async msg => {
 
     return command_info;
   } catch (err) {
-    console.log(err);
+    return errorLogging(err);
   }
 };

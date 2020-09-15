@@ -3,6 +3,7 @@ const {
   insertCommand,
   updateCommand,
   delCommand,
+  selectCommandInfo,
 } = require('../models/commands');
 
 exports.callCommand = async msg => {
@@ -23,6 +24,8 @@ exports.deleteCommand = msg => {
   return delCommand(msg);
 };
 
-exports.commandInfo = msg => {
-  return selectCommand(msg);
+exports.commandInfo = async msg => {
+  const { command_uses } = await selectCommandInfo(msg);
+
+  return command_uses;
 };

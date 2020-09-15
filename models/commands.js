@@ -9,6 +9,12 @@ const splitCommand = msg => {
   return { command_name, command_text };
 };
 
+const incrementCommand = command_name => {
+  return connection('commands')
+    .where({ command_name })
+    .increment({ command_uses: 1 });
+};
+
 exports.selectCommand = async msg => {
   const command_name = msg.split(' ')[0].slice(1);
   const command_text = await connection('commands')
@@ -23,12 +29,6 @@ exports.selectCommand = async msg => {
     });
 
   return command_text;
-};
-
-const incrementCommand = command_name => {
-  return connection('commands')
-    .where({ command_name })
-    .increment({ command_uses: 1 });
 };
 
 exports.insertCommand = async msg => {
@@ -95,4 +95,14 @@ exports.delCommand = async msg => {
   }
 
   return 'Delete command';
+};
+
+exports.selectCommandInfo = async msg => {
+  const { command_name } = splitCommand(msg);
+
+  const command_info = await connection('commands')
+    .first()
+    .where({ command_name });
+
+  return command_info;
 };

@@ -272,6 +272,20 @@ describe('deleteCommand', () => {
   });
 });
 
-xdescribe('!commandinfo', () => {});
+describe('!commandinfo', () => {
+  test('Returns command_uses', async () => {
+    const msg = '!commandinfo hello';
+
+    const command_uses = await commandInfo(msg);
+
+    expect(command_uses).toBe(0);
+  });
+
+  test.todo('Returns a chat message');
+
+  test.todo('ERROR: command_name does not exist');
+
+  test.todo('Does NOT increment command_uses');
+});
 
 xdescribe('!commandlist', () => {});

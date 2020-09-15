@@ -1,7 +1,10 @@
+const cors = require('cors');
 const connection = require('./db/connection');
 
 const app = require('express')();
 const port = 8080;
+
+app.use(cors);
 
 app.get('/', (req, res) => {
   return res.status(200).send({ '/commandlist': 'Lists all commands' });

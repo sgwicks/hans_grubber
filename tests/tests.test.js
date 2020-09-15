@@ -11,6 +11,7 @@ const mockAddCommand = commandControllers.addCommand;
 const mockEditCommand = commandControllers.editCommand;
 const mockDeleteCommand = commandControllers.deleteCommand;
 const mockCommandInfo = commandControllers.commandInfo;
+const mockCommandList = commandControllers.commandList;
 const {
   callCommand,
   addCommand,
@@ -90,7 +91,13 @@ describe('onMessageHandler', () => {
     expect(mockCommandInfo).toHaveBeenCalledWith(msg);
   });
 
-  test.todo('Responds to !commandlist');
+  test.only('Responds to !commandlist', async () => {
+    const msg = '!commandlist';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockCommandList).toHaveBeenCalled();
+  });
 });
 
 describe('callCommand', () => {

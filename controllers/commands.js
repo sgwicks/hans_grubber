@@ -32,3 +32,5 @@ exports.commandInfo = async msg => {
 
   return `Command !${command_name} has been used ${command_uses} times`;
 };
+
+exports.commandList = () => {};

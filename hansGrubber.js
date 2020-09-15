@@ -5,6 +5,7 @@ const {
   editCommand,
   deleteCommand,
   commandInfo,
+  commandList,
 } = require('./controllers/commands');
 const { errorLogging } = require('./errors/errors');
 const opts = require('./opts');
@@ -28,6 +29,8 @@ onMessageHandler = async (target, context, msg, self) => {
         response = await deleteCommand(msg);
       case '!commandinfo':
         response = await commandInfo(msg);
+      case '!commandlist':
+        response = await commandList();
       default:
         response = await callCommand(msg);
     }

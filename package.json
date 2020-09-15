@@ -11,12 +11,14 @@
     "rollback-test": "NODE_ENV=test knex migrate:rollback",
     "migrate-dev": "NODE_ENV=dev knex migrate:latest",
     "seed-dev": "NODE_ENV=dev knex seed:run",
-    "rollback:dev": "NODE_ENV=dev knex migrate:rollback"
+    "rollback:dev": "NODE_ENV=dev knex migrate:rollback",
+    "listen-test": "NODE_ENV=test node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "jest": "^26.4.2",
     "knex": "^0.21.5",
     "pg": "^8.3.3",

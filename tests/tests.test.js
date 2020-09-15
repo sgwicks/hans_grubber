@@ -278,14 +278,18 @@ describe('!commandinfo', () => {
 
     const command_uses = await commandInfo(msg);
 
-    expect(command_uses).toBe(0);
+    expect(command_uses).toBe('Command !hello has been used 0 times');
   });
 
-  test.todo('Returns a chat message');
+  test('ERROR: command_name does not exist', async () => {
+    const msg = '!commandinfo goodbye';
 
-  test.todo('ERROR: command_name does not exist');
+    const errorText = await commandInfo(msg);
 
-  test.todo('Does NOT increment command_uses');
+    expect(errorText).toBe(
+      'Command info failed: command !goodbye does not exist'
+    );
+  });
 });
 
 xdescribe('!commandlist', () => {});

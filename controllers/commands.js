@@ -25,7 +25,10 @@ exports.deleteCommand = msg => {
 };
 
 exports.commandInfo = async msg => {
-  const { command_uses } = await selectCommandInfo(msg);
+  const { command_uses, command_name } = await selectCommandInfo(msg);
 
-  return command_uses;
+  if (command_uses === undefined)
+    return `Command info failed: command !${command_name} does not exist`;
+
+  return `Command !${command_name} has been used ${command_uses} times`;
 };

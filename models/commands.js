@@ -100,9 +100,15 @@ exports.delCommand = async msg => {
 exports.selectCommandInfo = async msg => {
   const { command_name } = splitCommand(msg);
 
-  const command_info = await connection('commands')
-    .first()
-    .where({ command_name });
+  try {
+    const command_info = await connection('commands')
+      .first()
+      .where({ command_name });
 
-  return command_info;
+    if (!command_info) return { command_name };
+
+    return command_info;
+  } catch (err) {
+    console.log(err);
+  }
 };

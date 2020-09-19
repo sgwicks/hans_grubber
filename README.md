@@ -6,10 +6,8 @@
 
 Any command that isn't reserved for bot functionality can be called by using `!<commandname>`, e.g:
 
-```
-glaivemaster: !hello
-hansGrubberBot: Hello World
-```
+> glaivemaster: !hello <br />
+> hansGrubberBot: Hello World
 
 Commands that don't exist will elicit a response as follows:
 

@@ -12,16 +12,16 @@ exports.callCommand = async msg => {
   return command_text;
 };
 
-exports.addCommand = msg => {
-  return insertCommand(msg);
+exports.addCommand = (msg, user) => {
+  return insertCommand(msg, user);
 };
 
-exports.editCommand = msg => {
-  return updateCommand(msg);
+exports.editCommand = (msg, user) => {
+  return updateCommand(msg, user);
 };
 
-exports.deleteCommand = msg => {
-  return delCommand(msg);
+exports.deleteCommand = (msg, user) => {
+  return delCommand(msg, user);
 };
 
 exports.commandInfo = async msg => {

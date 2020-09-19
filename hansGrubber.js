@@ -12,7 +12,7 @@ const opts = require('./opts');
 
 const client = new tmi.client(opts);
 
-onMessageHandler = async (target, context, msg, self) => {
+onMessageHandler = async (channel, user, msg, self) => {
   if (self) return;
   if (msg[0] !== '!') return;
 
@@ -22,11 +22,11 @@ onMessageHandler = async (target, context, msg, self) => {
   try {
     switch (command) {
       case '!addcommand':
-        response = await addCommand(msg);
+        response = await addCommand(msg, user);
       case '!editcommand':
-        response = await editCommand(msg);
+        response = await editCommand(msg, user);
       case '!deletecommand':
-        response = await deleteCommand(msg);
+        response = await deleteCommand(msg, user);
       case '!commandinfo':
         response = await commandInfo(msg);
       case '!commandlist':
@@ -37,7 +37,7 @@ onMessageHandler = async (target, context, msg, self) => {
   } catch (err) {
     response = await errorLogging(err);
   } finally {
-    return client.say(target, response);
+    return client.say(channel, response);
   }
 };
 

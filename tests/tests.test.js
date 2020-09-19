@@ -64,7 +64,7 @@ describe('onMessageHandler', () => {
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(mockAddCommand).toHaveBeenCalledWith(msg);
+    expect(mockAddCommand).toHaveBeenCalledWith(msg, null);
   });
 
   test('Responds to !editcommand', async () => {
@@ -72,7 +72,7 @@ describe('onMessageHandler', () => {
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(mockEditCommand).toHaveBeenCalledWith(msg);
+    expect(mockEditCommand).toHaveBeenCalledWith(msg, null);
   });
 
   test('Responds to !deletecommand', async () => {
@@ -80,7 +80,7 @@ describe('onMessageHandler', () => {
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(mockDeleteCommand).toHaveBeenCalledWith(msg);
+    expect(mockDeleteCommand).toHaveBeenCalledWith(msg, null);
   });
 
   test('Responds to !commandinfo', async () => {
@@ -91,7 +91,7 @@ describe('onMessageHandler', () => {
     expect(mockCommandInfo).toHaveBeenCalledWith(msg);
   });
 
-  test.only('Responds to !commandlist', async () => {
+  test('Responds to !commandlist', async () => {
     const msg = '!commandlist';
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
@@ -128,8 +128,9 @@ describe('callCommand', () => {
 describe('addCommand', () => {
   test('Recognises new command_name', async () => {
     const msg = '!addcommand butter yum butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    await addCommand(msg);
+    await addCommand(msg, user);
 
     const command_name = await connection('commands')
       .select('command_name')
@@ -141,8 +142,9 @@ describe('addCommand', () => {
 
   test('Recognises new command_text', async () => {
     const msg = '!addcommand butter yum butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    await addCommand(msg);
+    await addCommand(msg, user);
 
     const command_text = await connection('commands')
       .select('command_text')
@@ -154,16 +156,18 @@ describe('addCommand', () => {
 
   test('Returns a chat message', async () => {
     const msg = '!addcommand butter yum butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    const messageAdded = await addCommand(msg);
+    const messageAdded = await addCommand(msg, user);
 
     expect(messageAdded).toBe('Added command !butter -> "yum butter"');
   });
 
   test('ERROR: command already exists', async () => {
     const msg = '!addcommand hello Hello Test World';
+    const user = { mod: true, 'user-id': '000' };
 
-    const messageError = await addCommand(msg);
+    const messageError = await addCommand(msg, user);
 
     expect(messageError).toBe(
       'Add command failed: command !hello already exists'
@@ -172,26 +176,51 @@ describe('addCommand', () => {
 
   test('ERROR: undefined command_text', async () => {
     const msg = '!addcommand butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    const messageError = await addCommand(msg);
+    const messageError = await addCommand(msg, user);
 
     expect(messageError).toBe('Add command failed: no command text provided');
   });
 
   test('ERROR: undefined command_name', async () => {
     const msg = '!addcommand';
+    const user = { mod: true, 'user-id': '000' };
 
-    const messageError = await addCommand(msg);
+    const messageError = await addCommand(msg, user);
 
     expect(messageError).toBe('Add command failed: no command name provided');
+  });
+
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!addcommand moderator You are a moderator';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorResponse = await addCommand(msg, user);
+
+    expect(errorResponse).toBe(
+      'Add command failed: Only moderators can use this command'
+    );
+  });
+
+  test('Responds to valid user-id', async () => {
+    const msg = '!addcommand moderator You are not a moderator';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const addedCommand = await addCommand(msg, user);
+
+    expect(addedCommand).toBe(
+      'Added command !moderator -> "You are not a moderator"'
+    );
   });
 });
 
 describe('editCommand', () => {
   test('Edits command in database', async () => {
     const msg = '!editcommand hello goodbye world';
+    const user = { mod: true, 'user-id': '000' };
 
-    await editCommand(msg);
+    await editCommand(msg, user);
 
     const command_text = await connection('commands')
       .select('command_text')
@@ -203,8 +232,9 @@ describe('editCommand', () => {
 
   test('Returns a chat message', async () => {
     const msg = '!editcommand hello return a chat message';
+    const user = { mod: true, 'user-id': '000' };
 
-    const editedMessage = await editCommand(msg);
+    const editedMessage = await editCommand(msg, user);
 
     expect(editedMessage).toBe(
       'Updated command !hello -> "return a chat message"'
@@ -213,8 +243,9 @@ describe('editCommand', () => {
 
   test('ERROR: Command does not exist', async () => {
     const msg = '!editcommand noncommand not a command';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await editCommand(msg);
+    const errorText = await editCommand(msg, user);
 
     expect(errorText).toBe(
       'Edit command failed: command !noncommand does not exist'
@@ -223,26 +254,49 @@ describe('editCommand', () => {
 
   test('ERROR: undefined command_text', async () => {
     const msg = '!editcommand hello';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await editCommand(msg);
+    const errorText = await editCommand(msg, user);
 
     expect(errorText).toBe('Edit command failed: no command text provided');
   });
 
   test('ERROR: undefined command_name', async () => {
     const msg = '!editcommand ';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await editCommand(msg);
+    const errorText = await editCommand(msg, user);
 
     expect(errorText).toBe('Edit command failed: no command name provided');
+  });
+
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!editcommand hello A moderator was here';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorResponse = await editCommand(msg, user);
+
+    expect(errorResponse).toBe(
+      'Edit command failed: Only a moderator may use this command'
+    );
+  });
+
+  test('Responds to permitted user-ids', async () => {
+    const msg = '!editcommand hello Sam was here';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const editedCommand = await editCommand(msg, user);
+
+    expect(editedCommand).toBe('Updated command !hello -> "Sam was here"');
   });
 });
 
 describe('deleteCommand', () => {
   test('Removes command from database', async () => {
     const msg = '!deletecommand test';
+    const user = { mod: true, 'user-id': '000' };
 
-    await deleteCommand(msg);
+    await deleteCommand(msg, user);
 
     const isDeleted = await connection('commands')
       .select('command_name')
@@ -254,16 +308,18 @@ describe('deleteCommand', () => {
 
   test('Returns a chat message', async () => {
     const msg = '!deletecommand test';
+    const user = { mod: true, 'user-id': '000' };
 
-    const deletedCommand = await deleteCommand(msg);
+    const deletedCommand = await deleteCommand(msg, user);
 
     expect(deletedCommand).toBe('Deleted command !test');
   });
 
   test('ERROR: Command does not exist', async () => {
     const msg = '!deletecommand butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await deleteCommand(msg);
+    const errorText = await deleteCommand(msg, user);
 
     expect(errorText).toBe(
       'Delete command failed: command !butter does not exist'
@@ -272,10 +328,31 @@ describe('deleteCommand', () => {
 
   test('ERROR: No command_name specified', async () => {
     const msg = '!deletecommand ';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await deleteCommand(msg);
+    const errorText = await deleteCommand(msg, user);
 
     expect(errorText).toBe('Delete command failed: no command name provided');
+  });
+
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!deletecommand test';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorMessage = await deleteCommand(msg, user);
+
+    expect(errorMessage).toBe(
+      'Delete command failed: Only a moderator may use this command'
+    );
+  });
+
+  test('Responds to permitted users', async () => {
+    const msg = '!deletecommand test';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const deletedCommand = await deleteCommand(msg, user);
+
+    expect(deletedCommand).toBe('Deleted command !test');
   });
 });
 

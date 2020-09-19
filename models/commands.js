@@ -1,6 +1,8 @@
 const connection = require('../db/connection');
 const { errorLogging } = require('../errors/errors');
 
+const permittedUsers = ['42340677'];
+
 const splitCommand = msg => {
   const msgArray = msg.split(' ');
 
@@ -37,7 +39,12 @@ exports.selectCommand = async msg => {
   }
 };
 
-exports.insertCommand = async msg => {
+exports.insertCommand = async (msg, user) => {
+  if (!user.mod) {
+    if (!permittedUsers.includes(user['user-id']))
+      return 'Add command failed: Only moderators can use this command';
+  }
+
   const { command_name, command_text } = splitCommand(msg);
 
   if (!command_name) return 'Add command failed: no command name provided';
@@ -56,7 +63,12 @@ exports.insertCommand = async msg => {
   }
 };
 
-exports.updateCommand = async msg => {
+exports.updateCommand = async (msg, user) => {
+  if (!user.mod) {
+    if (!permittedUsers.includes(user['user-id'])) {
+      return 'Edit command failed: Only a moderator may use this command';
+    }
+  }
   const { command_name, command_text } = splitCommand(msg);
 
   if (!command_name) return 'Edit command failed: no command name provided';
@@ -79,7 +91,11 @@ exports.updateCommand = async msg => {
   return;
 };
 
-exports.delCommand = async msg => {
+exports.delCommand = async (msg, user) => {
+  if (!user.mod) {
+    if (!permittedUsers.includes(user['user-id']))
+      return 'Delete command failed: Only a moderator may use this command';
+  }
   const { command_name } = splitCommand(msg);
 
   if (!command_name) return `Delete command failed: no command name provided`;

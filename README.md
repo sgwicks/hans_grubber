@@ -6,24 +6,18 @@
 
 Any command that isn't reserved for bot functionality can be called by using `!<commandname>`, e.g:
 
-> glaivemaster: !hello <br />
-> hansGrubberBot: Hello World
+> **glaivemaster:** !hello <br /> > **hansGrubberBot:** Hello World
 
 Commands that don't exist will elicit a response as follows:
 
-```
-glaivemaster: !unknowncommand
-hansGrubberBot: Command !unknowncommand does not exist
-```
+> **glaivemaster:** !unknowncommand <br /> > **hansGrubberBot:** Command !unknowncommand does not exist
 
 Commands must be called at the start of a sentence, but otherwise can be used within a sentence:
 
-```
-glaivemaster: !hello is a command...
-hansGrubberBot: Hello World
-glaivemaster: ...but can't be called at the end of a message !hello
-glaivemaster: ...or in the middle !hello of a message
-```
+> **glaivemaster:** !hello is a command... <br />
+> **hansGrubberBot:** Hello World <br />
+> **glaivemaster:** ...but can't be called at the end of a message !hello <br />
+> **glaivemaster:** ...or in the middle !hello of a message
 
 Currently all basic commands follow a call -> response paradigm i.e. you call a command and hansGrubberBot will respond with a chat message.
 
@@ -31,10 +25,8 @@ Currently all basic commands follow a call -> response paradigm i.e. you call a 
 
 Will respond with a link to a list of all existing command words
 
-```
-glaivemaster: !commandlist
-hansGrubberBot: https://shanodin.co.uk/command-list
-```
+> **glaivemaster:** !commandlist <br />
+> **hansGrubberBot:** https://shanodin.co.uk/command-list
 
 `!commandinfo <commandname>`
 
@@ -42,10 +34,8 @@ hansGrubberBot: https://shanodin.co.uk/command-list
 
 Will respond with the number of times a command has been called.
 
-```
-glaivemaster: !commandinfo morning
-hansGrubberBot: Command !morning has been used 420 times
-```
+> **glaivemaster:** !commandinfo morning <br />
+> **hansGrubberBot:** Command !morning has been used 420 times
 
 ## Moderator commands
 
@@ -57,10 +47,8 @@ Add a command to the database.
 
 `!addcommand <commandname> <commandtext>`
 
-```
-glaivemaster: !addcommand morning Morning all
-hansGrubberBot: Added command !morning -> "Morning all"
-```
+> **glaivemaster:** !addcommand morning Morning all <br />
+> **hansGrubberBot:** Added command !morning -> "Morning all"
 
 `<commandname>`<br />
 
@@ -80,10 +68,8 @@ Edit an existing command in the database.
 
 `!editcommand <commandname> <commandmessage>`
 
-```
-glaivemaster: !editcommand morning Morning is a state of mind
-hansGrubberBot: Updated command !morning -> "Morning is a state of mind"
-```
+> **glaivemaster:** !editcommand morning Morning is a state of mind <br />
+> **hansGrubberBot:** Updated command !morning -> "Morning is a state of mind"
 
 `<commandname>`<br />
 
@@ -102,10 +88,8 @@ Deletes a command from the database.
 
 `!deletecommand <commandname>`
 
-```
-glaivemaster: !deletecommand morning
-hansGrubberBot: Deleted command !morning
-```
+> **glaivemaster:** !deletecommand morning<br />
+> **hansGrubberBot:** Deleted command !morning
 
 `<commandname>`<br />
 

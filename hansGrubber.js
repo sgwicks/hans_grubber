@@ -26,7 +26,7 @@ onMessageHandler = async (channel, user, msg, self) => {
       case '!editcommand':
         response = await editCommand(msg, user);
       case '!deletecommand':
-        response = await deleteCommand(msg);
+        response = await deleteCommand(msg, user);
       case '!commandinfo':
         response = await commandInfo(msg);
       case '!commandlist':

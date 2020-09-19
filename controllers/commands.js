@@ -20,8 +20,8 @@ exports.editCommand = (msg, user) => {
   return updateCommand(msg, user);
 };
 
-exports.deleteCommand = msg => {
-  return delCommand(msg);
+exports.deleteCommand = (msg, user) => {
+  return delCommand(msg, user);
 };
 
 exports.commandInfo = async msg => {

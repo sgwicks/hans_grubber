@@ -80,7 +80,7 @@ describe('onMessageHandler', () => {
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
-    expect(mockDeleteCommand).toHaveBeenCalledWith(msg);
+    expect(mockDeleteCommand).toHaveBeenCalledWith(msg, null);
   });
 
   test('Responds to !commandinfo', async () => {
@@ -294,8 +294,9 @@ describe('editCommand', () => {
 describe('deleteCommand', () => {
   test('Removes command from database', async () => {
     const msg = '!deletecommand test';
+    const user = { mod: true, 'user-id': '000' };
 
-    await deleteCommand(msg);
+    await deleteCommand(msg, user);
 
     const isDeleted = await connection('commands')
       .select('command_name')
@@ -307,16 +308,18 @@ describe('deleteCommand', () => {
 
   test('Returns a chat message', async () => {
     const msg = '!deletecommand test';
+    const user = { mod: true, 'user-id': '000' };
 
-    const deletedCommand = await deleteCommand(msg);
+    const deletedCommand = await deleteCommand(msg, user);
 
     expect(deletedCommand).toBe('Deleted command !test');
   });
 
   test('ERROR: Command does not exist', async () => {
     const msg = '!deletecommand butter';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await deleteCommand(msg);
+    const errorText = await deleteCommand(msg, user);
 
     expect(errorText).toBe(
       'Delete command failed: command !butter does not exist'
@@ -325,13 +328,32 @@ describe('deleteCommand', () => {
 
   test('ERROR: No command_name specified', async () => {
     const msg = '!deletecommand ';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorText = await deleteCommand(msg);
+    const errorText = await deleteCommand(msg, user);
 
     expect(errorText).toBe('Delete command failed: no command name provided');
   });
 
-  test.todo('Only responds to moderators');
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!deletecommand test';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorMessage = await deleteCommand(msg, user);
+
+    expect(errorMessage).toBe(
+      'Delete command failed: Only a moderator may use this command'
+    );
+  });
+
+  test('Responds to permitted users', async () => {
+    const msg = '!deletecommand test';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const deletedCommand = await deleteCommand(msg, user);
+
+    expect(deletedCommand).toBe('Deleted command !test');
+  });
 });
 
 describe('!commandinfo', () => {

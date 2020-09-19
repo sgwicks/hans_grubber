@@ -91,7 +91,11 @@ exports.updateCommand = async (msg, user) => {
   return;
 };
 
-exports.delCommand = async msg => {
+exports.delCommand = async (msg, user) => {
+  if (!user.mod) {
+    if (!permittedUsers.includes(user['user-id']))
+      return 'Delete command failed: Only a moderator may use this command';
+  }
   const { command_name } = splitCommand(msg);
 
   if (!command_name) return `Delete command failed: no command name provided`;

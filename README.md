@@ -6,11 +6,11 @@
 
 Any command that isn't reserved for bot functionality can be called by using `!<commandname>`, e.g:
 
-> **glaivemaster:** !hello <br /> > **hansGrubberBot:** Hello World
+> **glaivemaster:** !hello <br /> **hansGrubberBot:** Hello World
 
 Commands that don't exist will elicit a response as follows:
 
-> **glaivemaster:** !unknowncommand <br /> > **hansGrubberBot:** Command !unknowncommand does not exist
+> **glaivemaster:** !unknowncommand <br /> **hansGrubberBot:** Command !unknowncommand does not exist
 
 Commands must be called at the start of a sentence, but otherwise can be used within a sentence:
 

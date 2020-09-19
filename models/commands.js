@@ -1,6 +1,7 @@
 const connection = require('../db/connection');
 const { errorLogging } = require('../errors/errors');
-const user = require('../user');
+
+const permittedUsers = ['42340677'];
 
 const splitCommand = msg => {
   const msgArray = msg.split(' ');
@@ -40,7 +41,6 @@ exports.selectCommand = async msg => {
 
 exports.insertCommand = async (msg, user) => {
   if (!user.mod) {
-    const permittedUsers = ['42340677'];
     if (!permittedUsers.includes(user['user-id']))
       return 'Add command failed: Only moderators can use this command';
   }
@@ -63,7 +63,12 @@ exports.insertCommand = async (msg, user) => {
   }
 };
 
-exports.updateCommand = async msg => {
+exports.updateCommand = async (msg, user) => {
+  if (!user.mod) {
+    if (!permittedUsers.includes(user['user-id'])) {
+      return 'Edit command failed: Only a moderator may use this command';
+    }
+  }
   const { command_name, command_text } = splitCommand(msg);
 
   if (!command_name) return 'Edit command failed: no command name provided';

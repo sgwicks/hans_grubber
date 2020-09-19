@@ -16,8 +16,8 @@ exports.addCommand = (msg, user) => {
   return insertCommand(msg, user);
 };
 
-exports.editCommand = msg => {
-  return updateCommand(msg);
+exports.editCommand = (msg, user) => {
+  return updateCommand(msg, user);
 };
 
 exports.deleteCommand = msg => {

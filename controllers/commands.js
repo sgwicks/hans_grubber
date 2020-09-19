@@ -12,8 +12,8 @@ exports.callCommand = async msg => {
   return command_text;
 };
 
-exports.addCommand = msg => {
-  return insertCommand(msg);
+exports.addCommand = (msg, user) => {
+  return insertCommand(msg, user);
 };
 
 exports.editCommand = msg => {

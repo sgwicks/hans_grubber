@@ -8,10 +8,10 @@
     "reset-db": "psql -f db/setup.sql",
     "migrate-test": "NODE_ENV=test knex migrate:latest",
     "seed-test": "NODE_ENV=test knex seed:run",
-    "rollback-test": "NODE_ENV=test knex migrate:rollback",
+    "rollback-test": "NODE_ENV=test knex migrate:rollback --all",
     "migrate-dev": "NODE_ENV=dev knex migrate:latest",
     "seed-dev": "NODE_ENV=dev knex seed:run",
-    "rollback:dev": "NODE_ENV=dev knex migrate:rollback",
+    "rollback:dev": "NODE_ENV=dev knex migrate:rollback --all",
     "listen-test": "NODE_ENV=test node app.js",
     "listen-dev": "NODE_ENV=dev node app.js"
   },

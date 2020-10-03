@@ -1,4 +1,3 @@
-const { TestScheduler } = require('jest');
 const { callQuote } = require('../controllers/quotes');
 const connection = require('../db/connection');
 
@@ -13,12 +12,18 @@ afterAll(() => {
 });
 
 describe('callQuote', () => {
-  test('Responds with a quote', () => {
+  test('Responds with a quote', async () => {
     const msg = '!quote';
+    const quote = await callQuote(msg);
 
-    expect(callQuote(msg)).toBeDefined();
+    expect(quote).toBeDefined();
+    expect(quote).not.toEqual(expect.stringContaining('Error: check logs'));
   });
-  test.todo('Given a number, responds with a specific quote');
+  test('Given a number, responds with a specific quote', async () => {
+    const msg = '!quote 2';
+    const quote = await callQuote(msg);
+    expect(quote).toBe('Filler quote (filler)');
+  });
   test.todo('If no quote exists for number, returns a message');
   test.todo('Returns a quote includes a given string');
   test.todo('If no quote exists matching string, returns a message');

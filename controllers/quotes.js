@@ -1,5 +1,6 @@
 const { selectQuote } = require('../models/quotes');
 
-exports.callQuote = (msg) => {
-  return selectQuote(msg);
+exports.callQuote = async (msg) => {
+  const quote = await selectQuote(msg);
+  return quote;
 };

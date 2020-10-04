@@ -1,4 +1,4 @@
-const { selectQuote, insertQuote } = require('../models/quotes');
+const { selectQuote, insertQuote, updateQuote } = require('../models/quotes');
 
 exports.callQuote = async (msg) => {
   const quote = await selectQuote(msg);
@@ -7,4 +7,8 @@ exports.callQuote = async (msg) => {
 
 exports.addQuote = (msg, user) => {
   return insertQuote(msg, user);
+};
+
+exports.editQuote = (msg, user) => {
+  return updateQuote(msg, user);
 };

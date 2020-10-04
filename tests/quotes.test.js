@@ -1,4 +1,4 @@
-const { callQuote, addQuote } = require('../controllers/quotes');
+const { callQuote, addQuote, editQuote } = require('../controllers/quotes');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
@@ -131,8 +131,17 @@ describe('addQuote', () => {
   });
 });
 
-xdescribe('editQuote', () => {
-  test.todo('Edits quote by number');
+describe('editQuote', () => {
+  test('Edits quote by number', async () => {
+    const msg = '!editquote 1 this is a new quote';
+    const user = { mod: true, 'user-id': '000' };
+
+    await editQuote(msg, user);
+
+    const editedQuote = await callQuote('!quote 1');
+
+    expect(editedQuote).toBe('this is a new quote (test)');
+  });
   test.todo('Edits quote game when called');
   test.todo('Returns chat message');
   test.todo("Doesn't respond to non-moderators");

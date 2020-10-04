@@ -12,7 +12,7 @@ exports.selectQuote = async (msg) => {
   const string = request ? (id ? null : request) : null;
   try {
     const quote = await connection('quotes')
-      .select(['quote_text', 'quote_game'])
+      .select(['quote_text', 'quote_game', 'id'])
       .then((res) => {
         if (string) {
           const filteredRes = res.filter(({ quote_text }) =>
@@ -20,7 +20,6 @@ exports.selectQuote = async (msg) => {
           );
           return filteredRes;
         }
-
         return res;
       })
       .then(async (res) => {
@@ -30,7 +29,11 @@ exports.selectQuote = async (msg) => {
 
         const index = id ? id : Math.ceil(Math.random() * res.length);
 
-        const { quote_game, quote_text } = res[index - 1];
+        const { quote_game, quote_text } = id
+          ? res.filter(({ id }) => {
+              return id === index;
+            })[0]
+          : res[index - 1];
 
         await connection('quotes')
           .increment('quote_uses', 1)
@@ -70,4 +73,15 @@ exports.insertQuote = async (msg, user) => {
     console.log(err);
     return errorLogging(err);
   }
+};
+
+exports.updateQuote = async (msg, user) => {
+  const request = msg.split(' ').splice(1);
+  const id = Number(request[0]);
+  const quote_text = request.splice(1).join(' ');
+
+  return connection('quotes')
+    .update({ quote_text })
+    .where({ id })
+    .returning('*');
 };

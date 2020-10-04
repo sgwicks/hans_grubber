@@ -66,11 +66,12 @@ describe('callQuote', () => {
   });
 });
 
-describe.only('addQuote', () => {
+describe('addQuote', () => {
   test('Adds quote to database', async () => {
     const msg = '!addquote this is a new quote';
+    const user = { mod: true, 'user-id': '000' };
 
-    await addQuote(msg);
+    await addQuote(msg, user);
 
     const addedQuote = await callQuote('!quote 4');
 
@@ -78,8 +79,9 @@ describe.only('addQuote', () => {
   });
   test('Adds game to database when given', async () => {
     const msg = '!addquote this quote has a game !game some game';
+    const user = { mod: true, 'user-id': '000' };
 
-    await addQuote(msg);
+    await addQuote(msg, user);
 
     const addedQuote = await callQuote('!quote 4');
 
@@ -87,26 +89,43 @@ describe.only('addQuote', () => {
   });
   test('Returns chat message', async () => {
     const msg = '!addquote this quote returns a chat message';
+    const user = { mod: true, 'user-id': '000' };
 
-    const chatMessage = await addQuote(msg);
+    const chatMessage = await addQuote(msg, user);
 
     expect(chatMessage).toBe(
       'Quote added: "this quote returns a chat message"'
     );
   });
-  test.todo("Doesn't respond to non-moderators");
-  test.todo('Responds to valid user-id');
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!addquote I am not a mod';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorMsg = await addQuote(msg, user);
+
+    expect(errorMsg).toBe('Add quote failed: only moderators can add quotes');
+  });
+  test('Responds to valid user-id', async () => {
+    const msg = '!addquote I am a special user';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const addedQuote = await addQuote(msg, user);
+
+    expect(addedQuote).toBe('Quote added: "I am a special user"');
+  });
   test('ERROR: no quote text provided', async () => {
     const msg = '!addquote ';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorMsg = await addQuote(msg);
+    const errorMsg = await addQuote(msg, user);
 
     expect(errorMsg).toBe('Add quote failed: no quote text provided');
   });
   test('ERROR: no game provided when game called', async () => {
     const msg = '!addquote call game with no game !game';
+    const user = { mod: true, 'user-id': '000' };
 
-    const errorMsg = await addQuote(msg);
+    const errorMsg = await addQuote(msg, user);
 
     expect(errorMsg).toBe('Add quote failed: called !game with no game');
   });

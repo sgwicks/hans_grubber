@@ -5,6 +5,6 @@ exports.callQuote = async (msg) => {
   return quote;
 };
 
-exports.addQuote = (msg) => {
-  return insertQuote(msg);
+exports.addQuote = (msg, user) => {
+  return insertQuote(msg, user);
 };

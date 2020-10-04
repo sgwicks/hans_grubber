@@ -9,18 +9,34 @@ exports.selectQuote = async (msg) => {
       : null
     : null;
 
+  const string = request ? (id ? null : request) : null;
   try {
     const quote = await connection('quotes')
       .select(['quote_text', 'quote_game'])
       .then((res) => {
+        if (string) {
+          const filteredRes = res.filter(({ quote_text }) =>
+            quote_text.toLowerCase().includes(string.toLowerCase())
+          );
+          return filteredRes;
+        }
+        return res;
+      })
+      .then((res) => {
+        if (id > res.length) return `Quote number ${id} does not exist`;
+
         const index = id ? id : Math.ceil(Math.random() * res.length);
+
         const { quote_game, quote_text } = res[index - 1];
+
         if (quote_game) return `${quote_text} (${quote_game})`;
-        else return `${quote_text}`;
+
+        return `${quote_text}`;
       });
 
     return quote;
   } catch (err) {
+    console.log(err);
     return errorLogging(err);
   }
 };

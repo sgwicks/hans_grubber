@@ -24,10 +24,23 @@ describe('callQuote', () => {
     const quote = await callQuote(msg);
     expect(quote).toBe('Filler quote (filler)');
   });
-  test.todo('If no quote exists for number, returns a message');
-  test.todo('Returns a quote includes a given string');
+  test('If no quote exists for number, returns a message', async () => {
+    const msg = '!quote 5000';
+
+    const error = await callQuote(msg);
+
+    expect(error).toBe('Quote number 5000 does not exist');
+  });
+  test('Returns a quote includes a given string', async () => {
+    const msg = '!quote filler';
+
+    const quote = await callQuote(msg);
+
+    expect(quote).toBe('Filler quote (filler)');
+  });
   test.todo('If no quote exists matching string, returns a message');
   test.todo('Appends game where it exists');
+  test.todo("Doesn't append game when game doesn't exist");
   test.todo('Increments call count');
 });
 

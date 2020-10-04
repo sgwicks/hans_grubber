@@ -20,14 +20,21 @@ exports.selectQuote = async (msg) => {
           );
           return filteredRes;
         }
+
         return res;
       })
-      .then((res) => {
+      .then(async (res) => {
+        if (!res.length)
+          return `Quote matching string "${string}" does not exist`;
         if (id > res.length) return `Quote number ${id} does not exist`;
 
         const index = id ? id : Math.ceil(Math.random() * res.length);
 
         const { quote_game, quote_text } = res[index - 1];
+
+        await connection('quotes')
+          .increment('quote_uses', 1)
+          .where({ quote_text });
 
         if (quote_game) return `${quote_text} (${quote_game})`;
 
@@ -36,7 +43,6 @@ exports.selectQuote = async (msg) => {
 
     return quote;
   } catch (err) {
-    console.log(err);
     return errorLogging(err);
   }
 };

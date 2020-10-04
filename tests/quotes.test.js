@@ -38,10 +38,32 @@ describe('callQuote', () => {
 
     expect(quote).toBe('Filler quote (filler)');
   });
-  test.todo('If no quote exists matching string, returns a message');
-  test.todo('Appends game where it exists');
-  test.todo("Doesn't append game when game doesn't exist");
-  test.todo('Increments call count');
+  test('If no quote exists matching string, returns a message', async () => {
+    const msg = '!quote banana';
+
+    const error = await callQuote(msg);
+
+    expect(error).toBe('Quote matching string "banana" does not exist');
+  });
+  test("Doesn't append brackets when game doesn't exist", async () => {
+    const msg = '!quote 3';
+
+    const quote = await callQuote(msg);
+
+    expect(quote).not.toEqual(expect.stringContaining('('));
+  });
+  test('Increments call count', async () => {
+    const msg = '!quote 1';
+
+    await callQuote(msg);
+
+    const { quote_uses } = await connection('quotes')
+      .select('quote_uses')
+      .where({ id: 1 })
+      .then((res) => res[0]);
+
+    expect(quote_uses).toBe(1);
+  });
 });
 
 xdescribe('addQuote', () => {

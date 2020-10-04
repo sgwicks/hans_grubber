@@ -56,9 +56,7 @@ exports.insertQuote = async (msg, user) => {
   const request = msg.split(' ').splice(1).join(' ');
 
   const quote_text = request.split('!game')[0].trim();
-  const quote_game = request.split('!game')[1]
-    ? request.split('!game')[1].trim() // only call trim if string exists to trim
-    : null;
+  const quote_game = request.split('!game ')[1];
 
   try {
     if (!quote_text) return 'Add quote failed: no quote text provided';
@@ -78,10 +76,9 @@ exports.insertQuote = async (msg, user) => {
 exports.updateQuote = async (msg, user) => {
   const request = msg.split(' ').splice(1);
   const id = Number(request[0]);
-  const quote_text = request.splice(1).join(' ');
+  const requestText = request.splice(1).join(' ');
+  const quote_text = requestText.split(' !game')[0];
+  const quote_game = requestText.split('!game ')[1];
 
-  return connection('quotes')
-    .update({ quote_text })
-    .where({ id })
-    .returning('*');
+  return connection('quotes').update({ quote_text, quote_game }).where({ id });
 };

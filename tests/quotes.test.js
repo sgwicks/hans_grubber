@@ -142,7 +142,16 @@ describe('editQuote', () => {
 
     expect(editedQuote).toBe('this is a new quote (test)');
   });
-  test.todo('Edits quote game when called');
+  test('Edits quote game when called', async () => {
+    const msg = '!editquote 1 updates the game !game new game';
+    const user = { mod: true, 'user-id': '000' };
+
+    await editQuote(msg, user);
+
+    const editedQuote = await callQuote('!quote 1');
+
+    expect(editedQuote).toBe('updates the game (new game)');
+  });
   test.todo('Returns chat message');
   test.todo("Doesn't respond to non-moderators");
   test.todo('Responds to valid user-id');

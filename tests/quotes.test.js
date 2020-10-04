@@ -152,7 +152,16 @@ describe('editQuote', () => {
 
     expect(editedQuote).toBe('updates the game (new game)');
   });
-  test.todo('Returns chat message');
+  test('Returns chat message', async () => {
+    const msg = '!editquote 1 return a chat message';
+    const user = { mod: true, 'user-id': '000' };
+
+    const editedQuote = await editQuote(msg, user);
+
+    expect(editedQuote).toBe(
+      'Edited quote 1 -> "return a chat message (test)"'
+    );
+  });
   test.todo("Doesn't respond to non-moderators");
   test.todo('Responds to valid user-id');
   test.todo('ERROR: no number provided');

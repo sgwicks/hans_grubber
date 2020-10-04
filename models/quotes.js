@@ -80,5 +80,17 @@ exports.updateQuote = async (msg, user) => {
   const quote_text = requestText.split(' !game')[0];
   const quote_game = requestText.split('!game ')[1];
 
-  return connection('quotes').update({ quote_text, quote_game }).where({ id });
+  try {
+    const [newQuote] = await connection('quotes')
+      .update({ quote_text, quote_game })
+      .where({ id })
+      .returning('*');
+
+    return newQuote.quote_game
+      ? `Edited quote ${id} -> "${newQuote.quote_text} (${newQuote.quote_game})"`
+      : `Edited quote ${id} -> "${newQuote.quote_text}"`;
+  } catch (err) {
+    console.log(err);
+    return errorLogging(err);
+  }
 };

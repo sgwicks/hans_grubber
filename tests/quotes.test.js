@@ -1,4 +1,4 @@
-const { callQuote } = require('../controllers/quotes');
+const { callQuote, addQuote } = require('../controllers/quotes');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
@@ -66,14 +66,50 @@ describe('callQuote', () => {
   });
 });
 
-xdescribe('addQuote', () => {
-  test.todo('Adds quote to database');
-  test.todo('Adds game to database when given');
-  test.todo('Returns chat message');
+describe.only('addQuote', () => {
+  test('Adds quote to database', async () => {
+    const msg = '!addquote this is a new quote';
+
+    await addQuote(msg);
+
+    const addedQuote = await callQuote('!quote 4');
+
+    expect(addedQuote).toBe('this is a new quote');
+  });
+  test('Adds game to database when given', async () => {
+    const msg = '!addquote this quote has a game !game some game';
+
+    await addQuote(msg);
+
+    const addedQuote = await callQuote('!quote 4');
+
+    expect(addedQuote).toBe('this quote has a game (some game)');
+  });
+  test('Returns chat message', async () => {
+    const msg = '!addquote this quote returns a chat message';
+
+    const chatMessage = await addQuote(msg);
+
+    expect(chatMessage).toBe(
+      'Quote added: "this quote returns a chat message"'
+    );
+  });
   test.todo("Doesn't respond to non-moderators");
   test.todo('Responds to valid user-id');
-  test.todo('ERROR: no quote text provided');
-  test.todo('ERROR: no game provided when game called');
+  test('ERROR: no quote text provided', async () => {
+    const msg = '!addquote ';
+
+    const errorMsg = await addQuote(msg);
+
+    expect(errorMsg).toBe('Add quote failed: no quote text provided');
+  });
+  test('ERROR: no game provided when game called', async () => {
+    const msg = '!addquote call game with no game !game';
+
+    const errorMsg = await addQuote(msg);
+
+    expect(errorMsg).toBe('Add quote failed: called !game with no game');
+  });
 });
 
 xdescribe('editQuote', () => {

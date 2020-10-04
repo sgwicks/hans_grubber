@@ -46,3 +46,26 @@ exports.selectQuote = async (msg) => {
     return errorLogging(err);
   }
 };
+
+exports.insertQuote = async (msg) => {
+  const request = msg.split(' ').splice(1).join(' ');
+
+  const quote_text = request.split('!game')[0].trim();
+  const quote_game = request.split('!game')[1]
+    ? request.split('!game')[1].trim() // only call trim if string exists to trim
+    : null;
+
+  try {
+    if (!quote_text) return 'Add quote failed: no quote text provided';
+    if (!quote_game && request.includes('!game'))
+      return 'Add quote failed: called !game with no game';
+    await connection('quotes').insert({ quote_text, quote_game });
+
+    return quote_game
+      ? `Quote added: "${quote_text} (${quote_game})"`
+      : `Quote added: "${quote_text}"`;
+  } catch (err) {
+    console.log(err);
+    return errorLogging(err);
+  }
+};

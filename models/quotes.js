@@ -74,6 +74,8 @@ exports.insertQuote = async (msg, user) => {
 };
 
 exports.updateQuote = async (msg, user) => {
+  if (!user.mod && user['user-id'] !== '42340677')
+    return 'Edit quote failed: only moderators may use this action';
   const request = msg.split(' ').splice(1);
   const id = Number(request[0]);
   const requestText = request.splice(1).join(' ');
@@ -81,16 +83,31 @@ exports.updateQuote = async (msg, user) => {
   const quote_game = requestText.split('!game ')[1];
 
   try {
+    if (!quote_text && !quote_game) throw { code: '00000' };
+
     const [newQuote] = await connection('quotes')
       .update({ quote_text, quote_game })
       .where({ id })
       .returning('*');
 
+    if (!newQuote) throw { code: '99999' };
+
     return newQuote.quote_game
       ? `Edited quote ${id} -> "${newQuote.quote_text} (${newQuote.quote_game})"`
       : `Edited quote ${id} -> "${newQuote.quote_text}"`;
   } catch (err) {
-    console.log(err);
-    return errorLogging(err);
+    errorLogging(err);
+    const errorMsg = 'Edit quote failed:';
+
+    switch (err.code) {
+      case '22P02':
+        return `${errorMsg} no quote number provided`;
+      case '99999':
+        return `${errorMsg} quote number ${id} does not exist`;
+      case '00000':
+        return `${errorMsg} no quote text provided`;
+      default:
+        return `${errorMsg} something unexpected happened`;
+    }
   }
 };

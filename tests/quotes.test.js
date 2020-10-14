@@ -162,12 +162,49 @@ describe('editQuote', () => {
       'Edited quote 1 -> "return a chat message (test)"'
     );
   });
-  test.todo("Doesn't respond to non-moderators");
-  test.todo('Responds to valid user-id');
-  test.todo('ERROR: no number provided');
-  test.todo('ERROR: quote does not exist');
-  test.todo('ERROR: no quote text provided');
-  test.todo('ERROR: no game provided when game called');
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = '!editquote 1 this is not allowed';
+    const user = { mod: false, 'user-id': '000' };
+
+    const errorMsg = await editQuote(msg, user);
+
+    expect(errorMsg).toBe(
+      'Edit quote failed: only moderators may use this action'
+    );
+  });
+  test('Responds to valid user-id', async () => {
+    const msg = '!editquote 1 this is allowed';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const message = await editQuote(msg, user);
+
+    expect(message).toBe('Edited quote 1 -> "this is allowed (test)"');
+  });
+  test('ERROR: no number provided', async () => {
+    const msg = `!editquote no number provided`;
+    const user = { mod: true, 'user-id': '000' };
+
+    const errorMsg = await editQuote(msg, user);
+
+    expect(errorMsg).toBe('Edit quote failed: no quote number provided');
+  });
+  test('ERROR: quote does not exist', async () => {
+    const msg = '!editquote 999 quote does not exist';
+
+    const user = { mod: true, 'user-id': '000' };
+
+    const errorMsg = await editQuote(msg, user);
+
+    expect(errorMsg).toBe('Edit quote failed: quote number 999 does not exist');
+  });
+  test('ERROR: no quote text provided', async () => {
+    const msg = '!editquote 1';
+    const user = { mod: true, 'user-id': '000' };
+
+    const errorMsg = await editQuote(msg, user);
+
+    expect(errorMsg).toBe('Edit quote failed: no quote text provided');
+  });
 });
 
 xdescribe('deleteQuote', () => {

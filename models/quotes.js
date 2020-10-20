@@ -1,3 +1,4 @@
+const { where } = require('../db/connection');
 const connection = require('../db/connection');
 const { errorLogging } = require('../errors/errors');
 
@@ -15,17 +16,22 @@ exports.selectQuote = async (msg) => {
       .select(['quote_text', 'quote_game', 'id'])
       .then((res) => {
         if (string) {
-          const filteredRes = res.filter(({ quote_text }) =>
+          const filterForString = res.filter(({ quote_text }) =>
             quote_text.toLowerCase().includes(string.toLowerCase())
           );
-          return filteredRes;
+          return filterForString;
         }
         return res;
       })
       .then(async (res) => {
         if (!res.length)
           return `Quote matching string "${string}" does not exist`;
-        if (id > res.length) return `Quote number ${id} does not exist`;
+
+        if (id) {
+          const quote_id = id;
+          const filterForId = res.filter(({ id }) => id === quote_id);
+          if (!filterForId.length) return `Quote number ${id} does not exist`;
+        }
 
         const index = id ? id : Math.ceil(Math.random() * res.length);
 
@@ -46,6 +52,7 @@ exports.selectQuote = async (msg) => {
 
     return quote;
   } catch (err) {
+    console.log(err);
     return errorLogging(err);
   }
 };
@@ -109,5 +116,16 @@ exports.updateQuote = async (msg, user) => {
       default:
         return `${errorMsg} something unexpected happened`;
     }
+  }
+};
+
+exports.delQuote = async (msg, user) => {
+  const id = Number(msg.split(' ')[1]);
+
+  try {
+    await connection('quotes').where({ id }).del();
+    return;
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -1,4 +1,9 @@
-const { callQuote, addQuote, editQuote } = require('../controllers/quotes');
+const {
+  callQuote,
+  addQuote,
+  editQuote,
+  deleteQuote,
+} = require('../controllers/quotes');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
@@ -207,8 +212,17 @@ describe('editQuote', () => {
   });
 });
 
-xdescribe('deleteQuote', () => {
-  test.todo('Deletes quote by number');
+describe('deleteQuote', () => {
+  test('Deletes quote by number', async () => {
+    const msg = '!deletequote 1';
+    const user = { mod: true, 'user-id': '000' };
+
+    await deleteQuote(msg, user);
+
+    const errorMsg = await callQuote('!quote 1');
+
+    expect(errorMsg).toBe('Quote number 1 does not exist');
+  });
   test.todo('Returns chat message');
   test.todo("Doesn't respond to non-moderators");
   test.todo('Responds to valid user-id');

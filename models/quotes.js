@@ -29,7 +29,9 @@ exports.selectQuote = async (msg) => {
 
         if (id) {
           const quote_id = id;
+
           const filterForId = res.filter(({ id }) => id === quote_id);
+
           if (!filterForId.length) return `Quote number ${id} does not exist`;
         }
 
@@ -120,12 +122,23 @@ exports.updateQuote = async (msg, user) => {
 };
 
 exports.delQuote = async (msg, user) => {
+  if (!user.mod && user['user-id'] !== '42340677')
+    return 'Delete quote failed: only moderators may use this command';
   const id = Number(msg.split(' ')[1]);
 
   try {
-    await connection('quotes').where({ id }).del();
-    return;
+    const isDeleted = await connection('quotes').where({ id }).del();
+    if (!isDeleted) throw { code: '00000' };
+    return `Quote ${id} deleted`;
   } catch (err) {
+    const errorMsg = 'Delete quote failed:';
+
+    switch (err.code) {
+      case '22P02':
+        return `${errorMsg} no quote number provided`;
+      case '00000':
+        return `${errorMsg} quote number ${id} does not exist`;
+    }
     console.log(err);
   }
 };

@@ -4,6 +4,7 @@ const {
   editQuote,
   deleteQuote,
 } = require('../controllers/quotes');
+const { del } = require('../db/connection');
 const connection = require('../db/connection');
 
 jest.mock('tmi.js');
@@ -223,9 +224,51 @@ describe('deleteQuote', () => {
 
     expect(errorMsg).toBe('Quote number 1 does not exist');
   });
-  test.todo('Returns chat message');
-  test.todo("Doesn't respond to non-moderators");
-  test.todo('Responds to valid user-id');
-  test.todo('ERROR: no number provided');
-  test.todo('ERROR: quote does not exist');
+  test('Returns chat message', async () => {
+    const msg = '!deletequote 1';
+    const user = { mod: true, 'user-id': '000' };
+
+    const chatMsg = await deleteQuote(msg, user);
+
+    expect(chatMsg).toBe('Quote 1 deleted');
+  });
+  test("Doesn't respond to non-moderators", async () => {
+    const msg = `!deletequote 1`;
+    const user = { mod: false, 'user-id': '000' };
+
+    const chatMsg = await deleteQuote(msg, user);
+
+    expect(chatMsg).toBe(
+      'Delete quote failed: only moderators may use this command'
+    );
+  });
+  test('Responds to valid user-id', async () => {
+    const msg = '!deletequote 2';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const chatMsg = await deleteQuote(msg, user);
+
+    expect(chatMsg).toBe('Quote 2 deleted');
+  });
+  test('ERROR: no number provided', async () => {
+    const msg = '!deletequote';
+    const user = { mod: true, 'user-id': '000' };
+    const msg2 = '!deletequote some text';
+
+    const errorMsg = await deleteQuote(msg, user);
+    const errorMsg2 = await deleteQuote(msg2, user);
+
+    expect(errorMsg).toBe('Delete quote failed: no quote number provided');
+    expect(errorMsg2).toBe('Delete quote failed: no quote number provided');
+  });
+  test('ERROR: quote does not exist', async () => {
+    const msg = '!deletequote 5000';
+    const user = { mod: false, 'user-id': '42340677' };
+
+    const errorMsg = await deleteQuote(msg, user);
+
+    expect(errorMsg).toBe(
+      'Delete quote failed: quote number 5000 does not exist'
+    );
+  });
 });

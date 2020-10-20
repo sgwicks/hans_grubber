@@ -6,7 +6,7 @@ const {
   selectCommandInfo,
 } = require('../models/commands');
 
-exports.callCommand = async msg => {
+exports.callCommand = async (msg) => {
   const command_text = await selectCommand(msg);
 
   return command_text;
@@ -24,7 +24,7 @@ exports.deleteCommand = (msg, user) => {
   return delCommand(msg, user);
 };
 
-exports.commandInfo = async msg => {
+exports.commandInfo = async (msg) => {
   const { command_uses, command_name } = await selectCommandInfo(msg);
 
   if (command_uses === undefined)
@@ -33,4 +33,6 @@ exports.commandInfo = async msg => {
   return `Command !${command_name} has been used ${command_uses} times`;
 };
 
-exports.commandList = () => {};
+exports.commandList = () => {
+  return 'This page is under construction';
+};

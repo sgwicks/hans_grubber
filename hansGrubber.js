@@ -7,6 +7,12 @@ const {
   commandInfo,
   commandList,
 } = require('./controllers/commands');
+const {
+  callQuote,
+  addQuote,
+  editQuote,
+  deleteQuote,
+} = require('./controllers/quotes');
 const { errorLogging } = require('./errors/errors');
 const opts = require('./opts');
 
@@ -31,6 +37,14 @@ onMessageHandler = async (channel, user, msg, self) => {
         response = await commandInfo(msg);
       case '!commandlist':
         response = await commandList();
+      case '!quote':
+        response = await callQuote(msg);
+      case '!addquote':
+        response = await addQuote(msg, user);
+      case '!editquote':
+        response = await editQuote(msg, user);
+      case '!deletequote':
+        response = await deleteQuote(msg, user);
       default:
         response = await callCommand(msg);
     }

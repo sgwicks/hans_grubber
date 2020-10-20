@@ -1,5 +1,6 @@
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
+const quoteControllers = require('../controllers/quotes');
 const tmi = require('tmi.js');
 
 jest.mock('tmi.js');
@@ -12,11 +13,21 @@ const mockDeleteCommand = commandControllers.deleteCommand;
 const mockCommandInfo = commandControllers.commandInfo;
 const mockCommandList = commandControllers.commandList;
 
+jest.mock('../controllers/quotes');
+const mockCallQuote = quoteControllers.callQuote;
+const mockAddQuote = quoteControllers.addQuote;
+const mockEditQuote = quoteControllers.editQuote;
+const mockDeleteQuote = quoteControllers.deleteQuote;
+
 afterEach(() => {
   mockCallCommand.mockReset();
   mockAddCommand.mockReset();
   mockEditCommand.mockReset();
   mockDeleteCommand.mockReset();
+  mockCallQuote.mockReset();
+  mockAddQuote.mockReset();
+  mockEditQuote.mockReset();
+  mockDeleteQuote.mockReset();
 });
 
 describe('onMessageHandler', () => {
@@ -81,5 +92,37 @@ describe('onMessageHandler', () => {
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
     expect(mockCommandList).toHaveBeenCalled();
+  });
+
+  test('Responds to !quote', async () => {
+    const msg = '!quote';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockCallQuote).toHaveBeenCalledWith('!quote');
+  });
+
+  test('Responds to !addquote', async () => {
+    const msg = '!addquote';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockAddQuote).toHaveBeenCalledWith('!addquote', null);
+  });
+
+  test('Responds to !editquote', async () => {
+    const msg = '!editquote';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockEditQuote).toHaveBeenCalledWith('!editquote', null);
+  });
+
+  test('Responds to !deletequote', async () => {
+    const msg = '!deletequote';
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockDeleteQuote).toHaveBeenCalledWith('!deletequote', null);
   });
 });

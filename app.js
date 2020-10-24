@@ -1,5 +1,4 @@
 const cors = require('cors');
-const connection = require('./db/connection');
 const express = require('express');
 
 const createError = require('http-errors');
@@ -43,17 +42,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-/*
-app.get('/', (req, res) => {
-  return res.status(200).send({ '/commandlist': 'Lists all commands' });
-});
-
-app.get('/commandlist', async (req, res) => {
-  const commandlist = await connection('commands').select('*');
-
-  return res.status(200).send({ commandlist });
-});
-*/
 
 module.exports = app;

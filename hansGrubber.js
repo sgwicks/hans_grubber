@@ -24,27 +24,37 @@ onMessageHandler = async (channel, user, msg, self) => {
 
   const command = msg.split(' ')[0];
   let response = '';
-
+  console.log('msg:', msg);
+  console.log('command:', command);
   try {
     switch (command) {
       case '!addcommand':
         response = await addCommand(msg, user);
+        break;
       case '!editcommand':
         response = await editCommand(msg, user);
+        break;
       case '!deletecommand':
         response = await deleteCommand(msg, user);
+        break;
       case '!commandinfo':
         response = await commandInfo(msg);
+        break;
       case '!commandlist':
         response = await commandList();
+        break;
       case '!quote':
         response = await callQuote(msg);
+        break;
       case '!addquote':
         response = await addQuote(msg, user);
+        break;
       case '!editquote':
         response = await editQuote(msg, user);
+        break;
       case '!deletequote':
         response = await deleteQuote(msg, user);
+        break;
       default:
         response = await callCommand(msg);
     }

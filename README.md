@@ -37,6 +37,41 @@ Will respond with the number of times a command has been called.
 > **glaivemaster:** !commandinfo morning <br />
 > **hansGrubberBot:** Command !morning has been used 420 times
 
+## Quotes
+
+A random quote can be called using `!quote` with no other text
+
+> **glaivemaster:** !quote <br />
+> **BeelzegrubBot:** Friends. I'm wierd and spooky
+
+If the quote has a game listed for it, it will also return the game
+
+> **glaivemaster:** !quote <br />
+> **BeelzegrubBot:** How can I get this carrot out of my hole? (Donut County)
+
+A specific quote can be called by appending a number after the command
+
+> **glaivemaster:** !quote 29<br />
+> **BeelzegrubBot:** Lava bad. Lava hot. (Hades)
+
+A random quote containing a specific word can be called by adding text after the command
+
+> **glaivemaster:** !quote dies<br />
+> **BeelzegrubBot:** Let's do some competent platforming! \*dies instantly\*
+
+A longer string of words can also be used
+
+> **glaivemaster:** !quote lava bad<br />
+> **BeelzegrubBot:** Lava bad. Lava hot. (Hades)
+
+If it can't find a quote, it will return an error
+
+> **glaivemaster:** !quote 5000<br />
+> **BeelzegrubBot:** Quote number 5000 does not exist
+
+> **glaivemaster:** !quote somenonsensestring<br />
+> **BeelzegrubBot:** Quote matching string "somenonsensestring" does not exist
+
 ## Moderator commands
 
 Some specific commands are reserved for use only by moderators. These commands have specific usages and error messages.
@@ -95,4 +130,44 @@ Deletes a command from the database.
 
 - MUST exist in the database
 
-No other information is required.
+### !addquote
+
+Add a new quote to the database
+
+`!addquote <quotetext>`
+
+> **glaivemaster:** !addquote I AM THE SPARTA
+> **BeelzegrubBot:** Quote added: "I AM THE SPARTA"
+
+A game can also be optionally added to a quote
+
+`!addquote <quotetext> !game <gamename>`
+
+> **glaivemaster:** !addquote I sure do done die a lot !game Dark Souls
+> **BeelzegrubBot:** Quote added: "I sure do done die a lot (Dark Souls)" 
+
+`<gamename>`
+- *does not require* brackets
+- must exist if `!game` is called (to leave game empty, don't use `!game` at all)
+
+### !editquote
+
+Edit a quote based on its number
+
+`!editquote <quote_number> <new_quote_text> !game <new_game>`
+
+> **glaivemaster:** !editquote 101 I AM SPARTA
+> **BeelzegrubBot:** Edited quote 101 -> "I AM SPARTA"
+
+Calling `!game` on this command allows you to edit the game attached to a quote, whether or not it existed before.
+
+
+
+
+
+## To Do
+
+- Return quote number with quote text
+- Re-implement `!so` command
+- Add subscriber/VIP/user capability to `!addquote`
+- Auto-moderation?

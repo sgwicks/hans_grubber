@@ -1,6 +1,8 @@
-const { where } = require('../db/connection');
 const connection = require('../db/connection');
 const { errorLogging } = require('../errors/errors');
+const permittedUsers = require('../user-ids');
+
+const permittedUserIds = Object.values(permittedUsers);
 
 exports.selectQuote = async (msg) => {
   const request = msg.split(' ').splice(1).join(' ');
@@ -83,8 +85,10 @@ exports.insertQuote = async (msg, user) => {
 };
 
 exports.updateQuote = async (msg, user) => {
-  if (!user.mod && user['user-id'] !== '42340677')
-    return 'Edit quote failed: only moderators may use this action';
+  if (!user.mod) {
+    if (!permittedUserIds.includes(user['user-id']))
+      return 'Edit quote failed: only moderators may use this action';
+  }
   const request = msg.split(' ').splice(1);
   const id = Number(request[0]);
   const requestText = request.splice(1).join(' ');
@@ -122,8 +126,10 @@ exports.updateQuote = async (msg, user) => {
 };
 
 exports.delQuote = async (msg, user) => {
-  if (!user.mod && user['user-id'] !== '42340677')
-    return 'Delete quote failed: only moderators may use this command';
+  if (!user.mod) {
+    if (!permittedUserIds.includes(user['user-id']))
+      return 'Delete quote failed: only moderators may use this command';
+  }
   const id = Number(msg.split(' ')[1]);
 
   try {

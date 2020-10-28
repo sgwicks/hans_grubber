@@ -4,8 +4,8 @@ const {
   editQuote,
   deleteQuote,
 } = require('../controllers/quotes');
-const { del } = require('../db/connection');
 const connection = require('../db/connection');
+const { controller } = require('../user-ids');
 
 jest.mock('tmi.js');
 
@@ -113,7 +113,7 @@ describe('addQuote', () => {
   });
   test('Responds to valid user-id', async () => {
     const msg = '!addquote I am a special user';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const addedQuote = await addQuote(msg, user);
 
@@ -180,7 +180,7 @@ describe('editQuote', () => {
   });
   test('Responds to valid user-id', async () => {
     const msg = '!editquote 1 this is allowed';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const message = await editQuote(msg, user);
 
@@ -210,6 +210,16 @@ describe('editQuote', () => {
     const errorMsg = await editQuote(msg, user);
 
     expect(errorMsg).toBe('Edit quote failed: no quote text provided');
+  });
+  xtest('Accepts edit with only game', async () => {
+    const msg = '!editquote 3 !game game';
+    const user = { mod: true, 'user-id': '000' };
+
+    const editedQuote = await editQuote(msg, user);
+
+    expect(editedQuote).toBe(
+      'Edited quote 3 -> "This quote has no game (game)'
+    );
   });
 });
 
@@ -244,7 +254,7 @@ describe('deleteQuote', () => {
   });
   test('Responds to valid user-id', async () => {
     const msg = '!deletequote 2';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const chatMsg = await deleteQuote(msg, user);
 
@@ -263,7 +273,7 @@ describe('deleteQuote', () => {
   });
   test('ERROR: quote does not exist', async () => {
     const msg = '!deletequote 5000';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const errorMsg = await deleteQuote(msg, user);
 

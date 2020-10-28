@@ -26,8 +26,7 @@ onMessageHandler = async (channel, user, msg, self) => {
 
   const command = msg.split(' ')[0];
   let response = '';
-
-
+  
   try {
     switch (command) {
       case '!addcommand':

@@ -227,14 +227,14 @@ describe('editQuote', () => {
 
     expect(errorMsg).toBe('Edit quote failed: no quote text provided');
   });
-  xtest('Accepts edit with only game', async () => {
+  test('Accepts edit with only game', async () => {
     const msg = '!editquote 3 !game game';
     const user = { mod: true, 'user-id': '000' };
 
     const editedQuote = await editQuote(msg, user);
 
     expect(editedQuote).toBe(
-      'Edited quote 3 -> "This quote has no game (game)'
+      'Edited quote 3 -> "This quote has no game (game)"'
     );
   });
 });

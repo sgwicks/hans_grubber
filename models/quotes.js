@@ -98,12 +98,27 @@ exports.updateQuote = async (msg, user) => {
   const quote_game = requestText.split('!game ')[1];
 
   try {
-    if (!quote_text && !quote_game) throw { code: '00000' };
+    // If nothing provided, throw error
+    if (!quote_text & !quote_game) throw { code: '00000' };
 
-    const [newQuote] = await connection('quotes')
-      .update({ quote_text, quote_game })
-      .where({ id })
-      .returning('*');
+    let newQuote;
+
+    if (quote_text.startsWith('!game')) {
+      // If quote_game but no quote_text, just update game
+      const response = await connection('quotes')
+        .update({ quote_game })
+        .where({ id })
+        .returning('*');
+      newQuote = response[0];
+    } else {
+      // Use quote text and quote game
+      const response = await connection('quotes')
+        .update({ quote_text, quote_game })
+        .where({ id })
+        .returning('*');
+
+      newQuote = response[0];
+    }
 
     if (!newQuote) throw { code: '99999' };
 

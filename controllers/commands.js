@@ -1,3 +1,4 @@
+
 const {
   selectCommand,
   insertCommand,
@@ -34,5 +35,5 @@ exports.commandInfo = async (msg) => {
 };
 
 exports.commandList = () => {
-  return 'This page is under construction';
+  return 'http://18.133.242.218:3000';
 };

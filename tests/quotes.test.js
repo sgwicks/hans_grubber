@@ -135,6 +135,15 @@ describe('addQuote', () => {
 
     expect(errorMsg).toBe('Add quote failed: called !game with no game');
   });
+  test('Subscribers can add quotes', async () => {
+    const msg = '!addquote I am a sub';
+    const user = { mod: false, 'user-id': '000', subscriber: true };
+
+    const response = await addQuote(msg, user);
+
+    expect(response).toBe('Quote added: "I am a sub"');
+  });
+  test.todo('VIPs can add quotes');
 });
 
 describe('editQuote', () => {

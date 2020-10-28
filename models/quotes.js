@@ -62,8 +62,10 @@ exports.selectQuote = async (msg) => {
 };
 
 exports.insertQuote = async (msg, user) => {
-  if (!user.mod & (user['user-id'] !== '42340677'))
-    return 'Add quote failed: only moderators can add quotes';
+  if (!user.mod & !user.subscriber) {
+    if (!permittedUserIds.includes(user['user-id']))
+      return 'Add quote failed: only moderators can add quotes';
+  }
   const request = msg.split(' ').splice(1).join(' ');
 
   const quote_text = request.split('!game')[0].trim();

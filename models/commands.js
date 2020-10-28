@@ -1,9 +1,10 @@
 const connection = require('../db/connection');
 const { errorLogging } = require('../errors/errors');
+const permittedUsers = require('../user-ids');
 
-const permittedUsers = ['42340677'];
+const permittedUserIds = Object.values(permittedUsers);
 
-const splitCommand = msg => {
+const splitCommand = (msg) => {
   const msgArray = msg.split(' ');
 
   const command_name = msgArray[1];
@@ -12,20 +13,20 @@ const splitCommand = msg => {
   return { command_name, command_text };
 };
 
-const incrementCommand = command_name => {
+const incrementCommand = (command_name) => {
   return connection('commands')
     .where({ command_name })
     .increment({ command_uses: 1 });
 };
 
-exports.selectCommand = async msg => {
+exports.selectCommand = async (msg) => {
   const command_name = msg.split(' ')[0].slice(1);
 
   try {
     const command_text = await connection('commands')
       .select('command_text')
       .where({ command_name })
-      .then(async res => {
+      .then(async (res) => {
         if (!res.length) return `Command !${command_name} does not exist`;
         else {
           await incrementCommand(command_name);
@@ -41,7 +42,7 @@ exports.selectCommand = async msg => {
 
 exports.insertCommand = async (msg, user) => {
   if (!user.mod) {
-    if (!permittedUsers.includes(user['user-id']))
+    if (!permittedUserIds.includes(user['user-id']))
       return 'Add command failed: Only moderators can use this command';
   }
 
@@ -65,7 +66,7 @@ exports.insertCommand = async (msg, user) => {
 
 exports.updateCommand = async (msg, user) => {
   if (!user.mod) {
-    if (!permittedUsers.includes(user['user-id'])) {
+    if (!permittedUserIds.includes(user['user-id'])) {
       return 'Edit command failed: Only a moderator may use this command';
     }
   }
@@ -93,7 +94,7 @@ exports.updateCommand = async (msg, user) => {
 
 exports.delCommand = async (msg, user) => {
   if (!user.mod) {
-    if (!permittedUsers.includes(user['user-id']))
+    if (!permittedUserIds.includes(user['user-id']))
       return 'Delete command failed: Only a moderator may use this command';
   }
   const { command_name } = splitCommand(msg);
@@ -118,7 +119,7 @@ exports.delCommand = async (msg, user) => {
   return 'Delete command';
 };
 
-exports.selectCommandInfo = async msg => {
+exports.selectCommandInfo = async (msg) => {
   const { command_name } = splitCommand(msg);
 
   try {

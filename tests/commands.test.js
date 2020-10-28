@@ -7,6 +7,8 @@ const {
 } = require('../controllers/commands');
 const connection = require('../db/connection');
 
+const { broadcaster, controller } = require('../user-ids');
+
 beforeEach(() => {
   return connection.seed.run();
 });
@@ -120,13 +122,22 @@ describe('addCommand', () => {
 
   test('Responds to valid user-id', async () => {
     const msg = '!addcommand moderator You are not a moderator';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const addedCommand = await addCommand(msg, user);
 
     expect(addedCommand).toBe(
       'Added command !moderator -> "You are not a moderator"'
     );
+  });
+
+  test('Responds to the broadcaster', async () => {
+    const msg = '!addcommand law I am the law';
+    const user = { mod: false, 'user-id': broadcaster };
+
+    const response = await addCommand(msg, user);
+
+    expect(response).toBe('Added command !law -> "I am the law"');
   });
 });
 
@@ -198,7 +209,7 @@ describe('editCommand', () => {
 
   test('Responds to permitted user-ids', async () => {
     const msg = '!editcommand hello Sam was here';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const editedCommand = await editCommand(msg, user);
 
@@ -263,7 +274,7 @@ describe('deleteCommand', () => {
 
   test('Responds to permitted users', async () => {
     const msg = '!deletecommand test';
-    const user = { mod: false, 'user-id': '42340677' };
+    const user = { mod: false, 'user-id': controller };
 
     const deletedCommand = await deleteCommand(msg, user);
 

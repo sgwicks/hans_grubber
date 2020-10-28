@@ -20,10 +20,13 @@ const client = new tmi.client(opts);
 
 onMessageHandler = async (channel, user, msg, self) => {
   if (self) return;
+  console.log('user:', user)
+  console.log('msg:', msg)
   if (msg[0] !== '!') return;
 
   const command = msg.split(' ')[0];
   let response = '';
+  
   try {
     switch (command) {
       case '!addcommand':

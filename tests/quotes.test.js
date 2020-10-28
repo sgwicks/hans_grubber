@@ -75,7 +75,7 @@ describe('callQuote', () => {
 describe('addQuote', () => {
   test('Adds quote to database', async () => {
     const msg = '!addquote this is a new quote';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     await addQuote(msg, user);
 
@@ -85,7 +85,7 @@ describe('addQuote', () => {
   });
   test('Adds game to database when given', async () => {
     const msg = '!addquote this quote has a game !game some game';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     await addQuote(msg, user);
 
@@ -95,7 +95,7 @@ describe('addQuote', () => {
   });
   test('Returns chat message', async () => {
     const msg = '!addquote this quote returns a chat message';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const chatMessage = await addQuote(msg, user);
 
@@ -105,7 +105,7 @@ describe('addQuote', () => {
   });
   test("Doesn't respond to non-moderators", async () => {
     const msg = '!addquote I am not a mod';
-    const user = { mod: false, 'user-id': '000' };
+    const user = { mod: false, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
@@ -113,7 +113,7 @@ describe('addQuote', () => {
   });
   test('Responds to valid user-id', async () => {
     const msg = '!addquote I am a special user';
-    const user = { mod: false, 'user-id': controller };
+    const user = { mod: false, 'user-id': controller, badges: {} };
 
     const addedQuote = await addQuote(msg, user);
 
@@ -121,7 +121,7 @@ describe('addQuote', () => {
   });
   test('ERROR: no quote text provided', async () => {
     const msg = '!addquote ';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
@@ -129,7 +129,7 @@ describe('addQuote', () => {
   });
   test('ERROR: no game provided when game called', async () => {
     const msg = '!addquote call game with no game !game';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
@@ -137,13 +137,20 @@ describe('addQuote', () => {
   });
   test('Subscribers can add quotes', async () => {
     const msg = '!addquote I am a sub';
-    const user = { mod: false, 'user-id': '000', subscriber: true };
+    const user = { mod: false, 'user-id': '000', subscriber: true, badges: {} };
 
     const response = await addQuote(msg, user);
 
     expect(response).toBe('Quote added: "I am a sub"');
   });
-  test.todo('VIPs can add quotes');
+  test('VIPs can add quotes', async () => {
+    const msg = '!addquote I am a VIP';
+    const user = { mod: false, 'user-id': '000', badges: { vip: '1' } };
+
+    const response = await addQuote(msg, user);
+
+    expect(response).toBe('Quote added: "I am a VIP"');
+  });
 });
 
 describe('editQuote', () => {

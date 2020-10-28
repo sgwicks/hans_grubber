@@ -28,7 +28,7 @@ describe('callQuote', () => {
   test('Given a number, responds with a specific quote', async () => {
     const msg = '!quote 2';
     const quote = await callQuote(msg);
-    expect(quote).toBe('Filler quote (filler)');
+    expect(quote).toBe('2. Filler quote (filler)');
   });
   test('If no quote exists for number, returns a message', async () => {
     const msg = '!quote 5000';
@@ -42,7 +42,7 @@ describe('callQuote', () => {
 
     const quote = await callQuote(msg);
 
-    expect(quote).toBe('Filler quote (filler)');
+    expect(quote).toBe('2. Filler quote (filler)');
   });
   test('If no quote exists matching string, returns a message', async () => {
     const msg = '!quote banana';
@@ -81,7 +81,7 @@ describe('addQuote', () => {
 
     const addedQuote = await callQuote('!quote 4');
 
-    expect(addedQuote).toBe('this is a new quote');
+    expect(addedQuote).toBe('4. this is a new quote');
   });
   test('Adds game to database when given', async () => {
     const msg = '!addquote this quote has a game !game some game';
@@ -91,7 +91,7 @@ describe('addQuote', () => {
 
     const addedQuote = await callQuote('!quote 4');
 
-    expect(addedQuote).toBe('this quote has a game (some game)');
+    expect(addedQuote).toBe('4. this quote has a game (some game)');
   });
   test('Returns chat message', async () => {
     const msg = '!addquote this quote returns a chat message';
@@ -162,7 +162,7 @@ describe('editQuote', () => {
 
     const editedQuote = await callQuote('!quote 1');
 
-    expect(editedQuote).toBe('this is a new quote (test)');
+    expect(editedQuote).toBe('1. this is a new quote (test)');
   });
   test('Edits quote game when called', async () => {
     const msg = '!editquote 1 updates the game !game new game';
@@ -172,7 +172,7 @@ describe('editQuote', () => {
 
     const editedQuote = await callQuote('!quote 1');
 
-    expect(editedQuote).toBe('updates the game (new game)');
+    expect(editedQuote).toBe('1. updates the game (new game)');
   });
   test('Returns chat message', async () => {
     const msg = '!editquote 1 return a chat message';

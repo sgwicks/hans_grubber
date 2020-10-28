@@ -49,9 +49,10 @@ exports.selectQuote = async (msg) => {
           .increment('quote_uses', 1)
           .where({ quote_text });
 
-        if (quote_game) return `${quote_text} (${quote_game})`;
+        if (quote_game)
+          return `${id || index + 1}. ${quote_text} (${quote_game})`;
 
-        return `${quote_text}`;
+        return `${id || index + 1}. ${quote_text}`;
       });
 
     return quote;
@@ -73,8 +74,9 @@ exports.insertQuote = async (msg, user) => {
 
   try {
     if (!quote_text) return 'Add quote failed: no quote text provided';
-    if (!quote_game && request.includes('!game'))
+    if (!quote_game & request.includes('!game'))
       return 'Add quote failed: called !game with no game';
+
     await connection('quotes').insert({ quote_text, quote_game });
 
     return quote_game

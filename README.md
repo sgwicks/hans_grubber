@@ -8,10 +8,6 @@ Any command that isn't reserved for bot functionality can be called by using `!<
 
 > **glaivemaster:** !hello <br /> **hansGrubberBot:** Hello World
 
-Commands that don't exist will elicit a response as follows:
-
-> **glaivemaster:** !unknowncommand <br /> **hansGrubberBot:** Command !unknowncommand does not exist
-
 Commands must be called at the start of a sentence, but otherwise can be used within a sentence:
 
 > **glaivemaster:** !hello is a command... <br />
@@ -26,7 +22,7 @@ Currently all basic commands follow a call -> response paradigm i.e. you call a 
 Will respond with a link to a list of all existing command words
 
 > **glaivemaster:** !commandlist <br />
-> **hansGrubberBot:** https://shanodin.co.uk/command-list
+> **hansGrubberBot:** http://18.133.242.218:3000/
 
 `!commandinfo <commandname>`
 
@@ -71,6 +67,26 @@ If it can't find a quote, it will return an error
 
 > **glaivemaster:** !quote somenonsensestring<br />
 > **BeelzegrubBot:** Quote matching string "somenonsensestring" does not exist
+
+### !addquote
+
+Add a new quote to the database
+
+`!addquote <quotetext>`
+
+> **glaivemaster:** !addquote I AM THE SPARTA
+> **BeelzegrubBot:** Quote added: "I AM THE SPARTA"
+
+A game can also be optionally added to a quote
+
+`!addquote <quotetext> !game <gamename>`
+
+> **glaivemaster:** !addquote I sure do done die a lot !game Dark Souls
+> **BeelzegrubBot:** Quote added: "I sure do done die a lot (Dark Souls)" 
+
+`<gamename>`
+- *does not require* brackets
+- must exist if `!game` is called (to leave game empty, don't use `!game` at all)
 
 ## Moderator commands
 
@@ -130,26 +146,6 @@ Deletes a command from the database.
 
 - MUST exist in the database
 
-### !addquote
-
-Add a new quote to the database
-
-`!addquote <quotetext>`
-
-> **glaivemaster:** !addquote I AM THE SPARTA
-> **BeelzegrubBot:** Quote added: "I AM THE SPARTA"
-
-A game can also be optionally added to a quote
-
-`!addquote <quotetext> !game <gamename>`
-
-> **glaivemaster:** !addquote I sure do done die a lot !game Dark Souls
-> **BeelzegrubBot:** Quote added: "I sure do done die a lot (Dark Souls)" 
-
-`<gamename>`
-- *does not require* brackets
-- must exist if `!game` is called (to leave game empty, don't use `!game` at all)
-
 ### !editquote
 
 Edit a quote based on its number
@@ -177,11 +173,20 @@ Delete a quote based on its number
 
 This won't change the number of any other quotes, so that if you delete a quote there will be 'holes' in the quote list. It's the easiest way, for now.
 
+### !so
+
+Give a shoutout to another Twitch user
+
+`!so <username>`
+
+> **shanodin:** !so glaivemaster
+>**BeelzegrubBot:** Please take a moment to check out some Crusader Kings 3 action with glaivemaster. Give them a follow at twitch.tv/glaivemaster and check out their amazing content!
+
 ## To Do
 
 - Return quote number with quote text
 - Implement only changing game on a quote
-- Re-implement `!so` command
-- Add subscriber/VIP/user capability to `!addquote`
+- Re-implement `!so` command [x]
+- Add subscriber/VIP/user capability to `!addquote` [x]
 - Add a `quotelist` command similar to `commandlist`
 - Auto-moderation?

@@ -63,10 +63,6 @@ exports.selectQuote = async (msg) => {
 };
 
 exports.insertQuote = async (msg, user) => {
-  if (!user.mod & !user.subscriber & !user.badges.vip) {
-    if (!permittedUserIds.includes(user['user-id']))
-      return 'Add quote failed: only moderators can add quotes';
-  }
   const request = msg.split(' ').splice(1).join(' ');
 
   const quote_text = request.split('!game')[0].trim();

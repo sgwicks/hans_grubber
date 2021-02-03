@@ -190,3 +190,4 @@ Give a shoutout to another Twitch user
 - Add subscriber/VIP/user capability to `!addquote` [x]
 - Add a `quotelist` command similar to `commandlist`
 - Auto-moderation?
+- Timer messages

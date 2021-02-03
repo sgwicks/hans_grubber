@@ -6,6 +6,7 @@ const {
   delCommand,
   selectCommandInfo,
 } = require('../models/commands');
+const {shoutout} = require('../api/api')
 
 exports.callCommand = async (msg) => {
   const command_text = await selectCommand(msg);

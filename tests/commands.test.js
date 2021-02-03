@@ -24,7 +24,7 @@ describe('callCommand', () => {
     expect(hello).toBe('Hello World');
   });
 
-  test('Invalid commands return does not exist', async () => {
+  xtest('Invalid commands return does not exist', async () => {
     const noHello = await callCommand('!goodbye');
 
     expect(noHello).toBe('Command !goodbye does not exist');

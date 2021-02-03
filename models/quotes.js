@@ -49,9 +49,10 @@ exports.selectQuote = async (msg) => {
           .increment('quote_uses', 1)
           .where({ quote_text });
 
-        if (quote_game) return `${quote_text} (${quote_game})`;
+        if (quote_game)
+          return `${id || index + 1}. ${quote_text} (${quote_game})`;
 
-        return `${quote_text}`;
+        return `${id || index + 1}. ${quote_text}`;
       });
 
     return quote;
@@ -62,8 +63,6 @@ exports.selectQuote = async (msg) => {
 };
 
 exports.insertQuote = async (msg, user) => {
-  if (!user.mod & (user['user-id'] !== '42340677'))
-    return 'Add quote failed: only moderators can add quotes';
   const request = msg.split(' ').splice(1).join(' ');
 
   const quote_text = request.split('!game')[0].trim();
@@ -71,8 +70,9 @@ exports.insertQuote = async (msg, user) => {
 
   try {
     if (!quote_text) return 'Add quote failed: no quote text provided';
-    if (!quote_game && request.includes('!game'))
+    if (!quote_game & request.includes('!game'))
       return 'Add quote failed: called !game with no game';
+
     await connection('quotes').insert({ quote_text, quote_game });
 
     return quote_game
@@ -96,12 +96,27 @@ exports.updateQuote = async (msg, user) => {
   const quote_game = requestText.split('!game ')[1];
 
   try {
-    if (!quote_text && !quote_game) throw { code: '00000' };
+    // If nothing provided, throw error
+    if (!quote_text & !quote_game) throw { code: '00000' };
 
-    const [newQuote] = await connection('quotes')
-      .update({ quote_text, quote_game })
-      .where({ id })
-      .returning('*');
+    let newQuote;
+
+    if (quote_text.startsWith('!game')) {
+      // If quote_game but no quote_text, just update game
+      const response = await connection('quotes')
+        .update({ quote_game })
+        .where({ id })
+        .returning('*');
+      newQuote = response[0];
+    } else {
+      // Use quote text and quote game
+      const response = await connection('quotes')
+        .update({ quote_text, quote_game })
+        .where({ id })
+        .returning('*');
+
+      newQuote = response[0];
+    }
 
     if (!newQuote) throw { code: '99999' };
 

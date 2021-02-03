@@ -28,7 +28,7 @@ describe('callQuote', () => {
   test('Given a number, responds with a specific quote', async () => {
     const msg = '!quote 2';
     const quote = await callQuote(msg);
-    expect(quote).toBe('Filler quote (filler)');
+    expect(quote).toBe('2. Filler quote (filler)');
   });
   test('If no quote exists for number, returns a message', async () => {
     const msg = '!quote 5000';
@@ -42,7 +42,7 @@ describe('callQuote', () => {
 
     const quote = await callQuote(msg);
 
-    expect(quote).toBe('Filler quote (filler)');
+    expect(quote).toBe('2. Filler quote (filler)');
   });
   test('If no quote exists matching string, returns a message', async () => {
     const msg = '!quote banana';
@@ -75,27 +75,27 @@ describe('callQuote', () => {
 describe('addQuote', () => {
   test('Adds quote to database', async () => {
     const msg = '!addquote this is a new quote';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     await addQuote(msg, user);
 
     const addedQuote = await callQuote('!quote 4');
 
-    expect(addedQuote).toBe('this is a new quote');
+    expect(addedQuote).toBe('4. this is a new quote');
   });
   test('Adds game to database when given', async () => {
     const msg = '!addquote this quote has a game !game some game';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     await addQuote(msg, user);
 
     const addedQuote = await callQuote('!quote 4');
 
-    expect(addedQuote).toBe('this quote has a game (some game)');
+    expect(addedQuote).toBe('4. this quote has a game (some game)');
   });
   test('Returns chat message', async () => {
     const msg = '!addquote this quote returns a chat message';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const chatMessage = await addQuote(msg, user);
 
@@ -103,9 +103,9 @@ describe('addQuote', () => {
       'Quote added: "this quote returns a chat message"'
     );
   });
-  test("Doesn't respond to non-moderators", async () => {
+  xtest("Doesn't respond to non-moderators", async () => {
     const msg = '!addquote I am not a mod';
-    const user = { mod: false, 'user-id': '000' };
+    const user = { mod: false, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
@@ -113,7 +113,7 @@ describe('addQuote', () => {
   });
   test('Responds to valid user-id', async () => {
     const msg = '!addquote I am a special user';
-    const user = { mod: false, 'user-id': controller };
+    const user = { mod: false, 'user-id': controller, badges: {} };
 
     const addedQuote = await addQuote(msg, user);
 
@@ -121,7 +121,7 @@ describe('addQuote', () => {
   });
   test('ERROR: no quote text provided', async () => {
     const msg = '!addquote ';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
@@ -129,11 +129,27 @@ describe('addQuote', () => {
   });
   test('ERROR: no game provided when game called', async () => {
     const msg = '!addquote call game with no game !game';
-    const user = { mod: true, 'user-id': '000' };
+    const user = { mod: true, 'user-id': '000', badges: {} };
 
     const errorMsg = await addQuote(msg, user);
 
     expect(errorMsg).toBe('Add quote failed: called !game with no game');
+  });
+  test('Subscribers can add quotes', async () => {
+    const msg = '!addquote I am a sub';
+    const user = { mod: false, 'user-id': '000', subscriber: true, badges: {} };
+
+    const response = await addQuote(msg, user);
+
+    expect(response).toBe('Quote added: "I am a sub"');
+  });
+  test('VIPs can add quotes', async () => {
+    const msg = '!addquote I am a VIP';
+    const user = { mod: false, 'user-id': '000', badges: { vip: '1' } };
+
+    const response = await addQuote(msg, user);
+
+    expect(response).toBe('Quote added: "I am a VIP"');
   });
 });
 
@@ -146,7 +162,7 @@ describe('editQuote', () => {
 
     const editedQuote = await callQuote('!quote 1');
 
-    expect(editedQuote).toBe('this is a new quote (test)');
+    expect(editedQuote).toBe('1. this is a new quote (test)');
   });
   test('Edits quote game when called', async () => {
     const msg = '!editquote 1 updates the game !game new game';
@@ -156,7 +172,7 @@ describe('editQuote', () => {
 
     const editedQuote = await callQuote('!quote 1');
 
-    expect(editedQuote).toBe('updates the game (new game)');
+    expect(editedQuote).toBe('1. updates the game (new game)');
   });
   test('Returns chat message', async () => {
     const msg = '!editquote 1 return a chat message';
@@ -211,14 +227,14 @@ describe('editQuote', () => {
 
     expect(errorMsg).toBe('Edit quote failed: no quote text provided');
   });
-  xtest('Accepts edit with only game', async () => {
+  test('Accepts edit with only game', async () => {
     const msg = '!editquote 3 !game game';
     const user = { mod: true, 'user-id': '000' };
 
     const editedQuote = await editQuote(msg, user);
 
     expect(editedQuote).toBe(
-      'Edited quote 3 -> "This quote has no game (game)'
+      'Edited quote 3 -> "This quote has no game (game)"'
     );
   });
 });

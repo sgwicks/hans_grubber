@@ -1,4 +1,5 @@
 const tmi = require('tmi.js');
+const { shoutout } = require('./api/api');
 const {
   callCommand,
   addCommand,
@@ -20,15 +21,16 @@ const client = new tmi.client(opts);
 
 onMessageHandler = async (channel, user, msg, self) => {
   if (self) return;
-  console.log('user:', user)
-  console.log('msg:', msg)
   if (msg[0] !== '!') return;
 
   const command = msg.split(' ')[0];
   let response = '';
-  
+
   try {
     switch (command) {
+      case '!so':
+        response = await shoutout(msg, user)
+        break;
       case '!addcommand':
         response = await addCommand(msg, user);
         break;
@@ -62,6 +64,7 @@ onMessageHandler = async (channel, user, msg, self) => {
   } catch (err) {
     response = await errorLogging(err);
   } finally {
+    if (!response) return
     return client.say(channel, response);
   }
 };

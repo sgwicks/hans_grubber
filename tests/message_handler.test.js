@@ -2,6 +2,7 @@ const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const quoteControllers = require('../controllers/quotes');
 const tmi = require('tmi.js');
+const { shoutout } = require('../api/api')
 
 jest.mock('tmi.js');
 
@@ -18,6 +19,9 @@ const mockCallQuote = quoteControllers.callQuote;
 const mockAddQuote = quoteControllers.addQuote;
 const mockEditQuote = quoteControllers.editQuote;
 const mockDeleteQuote = quoteControllers.deleteQuote;
+
+jest.mock('../api/api')
+const mockShoutout = shoutout
 
 afterEach(() => {
   mockCallCommand.mockReset();
@@ -125,4 +129,12 @@ describe('onMessageHandler', () => {
 
     expect(mockDeleteQuote).toHaveBeenCalledWith('!deletequote', null);
   });
+
+  test.only('Responds to !so', async () => {
+    const msg = '!so kikibunny'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockShoutout).toHaveBeenCalledWith('!so kikibunny', null)
+  })
 });

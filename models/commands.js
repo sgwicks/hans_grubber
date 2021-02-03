@@ -27,7 +27,7 @@ exports.selectCommand = async (msg) => {
       .select('command_text')
       .where({ command_name })
       .then(async (res) => {
-        if (!res.length) return `Command !${command_name} does not exist`;
+        if (!res.length) return //`Command !${command_name} does not exist`;
         else {
           await incrementCommand(command_name);
           return res[0].command_text;

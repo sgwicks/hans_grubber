@@ -191,3 +191,4 @@ Give a shoutout to another Twitch user
 - Add a `quotelist` command similar to `commandlist`
 - Auto-moderation?
 - Timer messages
+- Timer command to add a timer to the screen (or at least create an alert when time is up)

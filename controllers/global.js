@@ -1,8 +1,10 @@
 const { callCommand, editCommand } = require('./commands')
 
 exports.addChallenge = async (newChallenge, user) => {
+  if (!user.mod) return 'Mods only!'
   try {
-  const shapeChallenge = (challenge) => {
+  const shapeChallenge = (command) => {
+    const challenge = command.split(' ')[1]
     const [row, column] = challenge.split(',')
     const [rowNum] = row.match(/[0-5]/)
     const [colNum] = column.match(/[0-5]/)

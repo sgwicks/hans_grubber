@@ -32,7 +32,7 @@ onMessageHandler = async (channel, user, msg, self) => {
       case '!so':
         response = await shoutout(msg, user)
         break;
-      case '!addChallenge':
+      case '!addchallenge':
         response = await addChallenge(msg, user)
         break;
       case '!addcommand':

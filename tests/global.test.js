@@ -14,7 +14,7 @@ afterAll(() => {
 
 describe('addChallenge', () => {
   test('Returns old text with new challenge added', async () => {
-    const newChallenge = '3,2'
+    const newChallenge = '!addchallenge 3,2'
     const user = { mod: true, 'user-id': '000' };
 
     const newBingo = await addChallenge(newChallenge, user)

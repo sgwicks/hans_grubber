@@ -1,5 +1,6 @@
 const tmi = require('tmi.js');
 const { shoutout } = require('./api/api');
+const { addChallenge } = require('./controllers/global')
 const {
   callCommand,
   addCommand,
@@ -30,6 +31,9 @@ onMessageHandler = async (channel, user, msg, self) => {
     switch (command) {
       case '!so':
         response = await shoutout(msg, user)
+        break;
+      case '!addChallenge':
+        response = await addChallenge(msg, user)
         break;
       case '!addcommand':
         response = await addCommand(msg, user);

@@ -6,9 +6,16 @@
   </head>
   <body>
     <h1><%= title %></h1>
+    <h2>Command List</h2>
     <ol>
       <% commandList.forEach(command => { %>
       <li><%= command %></li>
+      <% }) %>
+    </ol>
+    <h2>Quotes List</h2>
+    <ol>
+      <% quoteList.forEach(quote => {%)>
+        <li><%= quote %></li>
       <% }) %>
     </ol>
   </body>

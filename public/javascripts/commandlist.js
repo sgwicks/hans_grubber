@@ -8,4 +8,18 @@ const commandList = () => {
     })
     .catch((err) => console.log(err));
 };
-module.exports = { commandList };
+
+const quoteList = () => {
+  return connection('quotes')
+  .select(['quote_text', 'quote_game', 'id'])
+  .then((quotes) => {
+    return quotes.map(({ quote_text, quote_game, id }) => {
+      if (quote_game) {
+        return `${id}. ${quote_text} (${quote_game})`
+      } else {
+        return `${id}. ${quote_text}`
+      }
+    })
+  })
+}
+module.exports = { commandList, quoteList };

@@ -20,12 +20,24 @@ const opts = require('./opts');
 
 const client = new tmi.client(opts);
 
+let soDebounce = false
+
 onMessageHandler = async (channel, user, msg, self) => {
   if (self) return;
   if (msg[0] !== '!') return;
 
   const command = msg.split(' ')[0];
   let response = '';
+  
+  if (command === '!so') {
+    if (soDebounce) return
+    else {
+      soDebounce = true
+      setTimeout(() => { 
+        soDebounce = false
+      }, 3000)
+    }
+  }
 
   try {
     switch (command) {

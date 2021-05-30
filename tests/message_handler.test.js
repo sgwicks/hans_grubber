@@ -130,11 +130,30 @@ describe('onMessageHandler', () => {
     expect(mockDeleteQuote).toHaveBeenCalledWith('!deletequote', null);
   });
 
-  test.only('Responds to !so', async () => {
+  test('Responds to !so', async () => {
     const msg = '!so kikibunny'
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
     expect(mockShoutout).toHaveBeenCalledWith('!so kikibunny', null)
+  })
+
+  test('!so 3 second debounce cancels close calls', async () => {
+    const msg = '!so kikibunny'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockShoutout).toHaveBeenCalledTimes(1)
+  })
+
+  test('!so 5 second debounce lasts 3 seconds', async () => {
+    const msg = '!so kikibunny'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+    await new Promise(resolve =>setTimeout(resolve, 3001))
+    await hansGrubber.onMessageHandler(null, null, msg, null);
+
+    expect(mockShoutout).toHaveBeenCalledTimes(2)
   })
 });

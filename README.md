@@ -184,10 +184,10 @@ Give a shoutout to another Twitch user
 
 ## To Do
 
-- Return quote number with quote text
+- ~~Return quote number with quote text
 - Implement only changing game on a quote
-- Re-implement `!so` command [x]
-- Add subscriber/VIP/user capability to `!addquote` [x]
+- ~~Re-implement `!so` command
+- ~~Add subscriber/VIP/user capability to `!addquote`
 - Add a `quotelist` command similar to `commandlist`
 - Auto-moderation?
 - Timer messages

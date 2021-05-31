@@ -1,6 +1,6 @@
 # Hans Grubber Bot
 
-[Commands](#commands) | [Quotes](#quotes) | [Moderator Commands](#moderator-commands) | [Timers]{#timers}
+[Commands](#commands) | [Quotes](#quotes) | [Moderator Commands](#moderator-commands) | [Timers](#timers)
 
 ## Commands
 

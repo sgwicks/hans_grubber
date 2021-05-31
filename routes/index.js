@@ -3,14 +3,14 @@ var router = express.Router();
 const { commandList, quoteList } = require('../public/javascripts/commandlist');
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
-  Promise.all(commandList, quoteList)
-  .then(([commands, quotes]) => {
-    res.render('index', {
-      title: 'Command List',
-      commandList: commands,
-      quoteList: quotes
-    });
+router.get('/', async (req, res, next) => {
+  const commands = await commandList()
+  const quotes = await quoteList()
+  
+  res.render('index', {
+    title: 'Command List',
+    commandList: commands,
+    quoteList: quotes
   });
 });
 

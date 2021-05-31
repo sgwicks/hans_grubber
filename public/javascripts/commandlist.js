@@ -11,13 +11,13 @@ const commandList = () => {
 
 const quoteList = () => {
   return connection('quotes')
-  .select(['quote_text', 'quote_game', 'id'])
+  .select('quote_text', 'quote_game', 'id')
   .then((quotes) => {
     return quotes.map(({ quote_text, quote_game, id }) => {
       if (quote_game) {
-        return `${id}. ${quote_text} (${quote_game})`
+        return `${quote_text} (${quote_game})`
       } else {
-        return `${id}. ${quote_text}`
+        return `${quote_text}`
       }
     })
   })

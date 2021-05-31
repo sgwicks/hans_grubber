@@ -76,14 +76,14 @@ Add a new quote to the database
 
 `!addquote <quotetext>`
 
-> **glaivemaster:** !addquote I AM THE SPARTA
+> **glaivemaster:** !addquote I AM THE SPARTA<br />
 > **BeelzegrubBot:** Quote added: "I AM THE SPARTA"
 
 A game can also be optionally added to a quote
 
 `!addquote <quotetext> !game <gamename>`
 
-> **glaivemaster:** !addquote I sure do done die a lot !game Dark Souls
+> **glaivemaster:** !addquote I sure do done die a lot !game Dark Souls<br />
 > **BeelzegrubBot:** Quote added: "I sure do done die a lot (Dark Souls)" 
 
 `<gamename>`
@@ -154,12 +154,12 @@ Edit a quote based on its number
 
 `!editquote <quote_number> <new_quote_text> !game <new_game>`
 
-> **glaivemaster:** !editquote 101 I AM SPARTA
+> **glaivemaster:** !editquote 101 I AM SPARTA<br />
 > **BeelzegrubBot:** Edited quote 101 -> "I AM SPARTA"
 
 Calling `!game` on this command allows you to edit the game attached to a quote, whether or not it existed before.
 
-> **glaivemaster:** !editquote 101 I AM SPARTA !game AC Odyssey
+> **glaivemaster:** !editquote 101 I AM SPARTA !game AC Odyssey<br />
 > **BeelzegrubBot:** Edited quote 101 -> "I AM SPARTA (AC Odyssey)"
 
 Currently the implementation of *only* editing the game on a quote is broken (i.e. I forgot) so don't try to do it! If you want to edit a quote with a game, you also need to pass the entire quote text through the edit command (Sorry!!!!)
@@ -170,7 +170,7 @@ Delete a quote based on its number
 
 `!deletequote <quote_number>`
 
-> **glaivemaster:** !deletequote 69
+> **glaivemaster:** !deletequote 69<br />
 > **BeelzegrubBot:** Deleted quote 69
 
 This won't change the number of any other quotes, so that if you delete a quote there will be 'holes' in the quote list. It's the easiest way, for now.
@@ -181,7 +181,7 @@ Give a shoutout to another Twitch user. This command has a 3 second cooldown, to
 
 `!so <username>`
 
-> **shanodin:** !so glaivemaster
+> **shanodin:** !so glaivemaster<br />
 >**BeelzegrubBot:** Please take a moment to check out some Crusader Kings 3 action with glaivemaster. Give them a follow at twitch.tv/glaivemaster and check out their amazing content!
 
 ## Timers
@@ -192,9 +192,9 @@ Add a new message to the list of timed messages
 
 `!addtimer <msg>`
 
-> **shanodin:** !addtimer Hey, did you know you can now set timer messages? Just use the (moderator-only) !addtimer command with your new message
-> **BeelzegrubBot:** New timer message added: "Hey, did you know..."
-> _Time Passes_
+> **shanodin:** !addtimer Hey, did you know you can now set timer messages? Just use the (moderator-only) !addtimer command with your new message<br />
+> **BeelzegrubBot:** New timer message added: "Hey, did you know..."<br />
+> _Time Passes_ <br />
 > **BeelzegrubBot:** Hey, did you know...
 
 ### !removetimer
@@ -203,7 +203,7 @@ Remove a message from the timed messages list
 
 `!removetimer <id>`
 
-> **shanodin:** !removetimer 4
+> **shanodin:** !removetimer 4<br />
 > **BeelzegrubBot:** Timer message deleted: "Hey, did you know..."
 
 ### !timerlist
@@ -212,7 +212,7 @@ Post a list of timer message snippets and their id numbers
 
 `!timerlist`
 
-> **shanodin:** !timerlist
+> **shanodin:** !timerlist<br />
 > **BeelzegrubBot:** { 1. Each command is a snippet }, { 2. So you won't absolutely f }, { 5. The number is the id numb }, { 8. Use this id for the delet }
 
 - Each command is a snippet of the first 25 characters

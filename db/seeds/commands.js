@@ -1,4 +1,4 @@
-const { commands, quotes } = require('../data/index.js');
+const { commands, quotes, timers } = require('../data/index.js');
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
@@ -9,6 +9,9 @@ exports.seed = function (knex) {
       return knex('commands').insert(commands)
         .then(() => {
           return knex('quotes').insert(quotes)
+        })
+        .then(() => {
+          return knex('timers').insert(timers)
         })
 
     })

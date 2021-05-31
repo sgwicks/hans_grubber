@@ -15,6 +15,7 @@ const {
   editQuote,
   deleteQuote,
 } = require('./controllers/quotes');
+const { callTimer, timersLength } = require('./controllers/timers')
 const { errorLogging } = require('./errors/errors');
 const opts = require('./opts');
 
@@ -87,6 +88,15 @@ onMessageHandler = async (channel, user, msg, self) => {
 
 onConnectedHandler = (addr, port) => {
   console.log(`* Connected to ${addr}:${port}`);
+
+  let messageNumber = 0
+  setInterval(async () => {
+    // Check that messageNumber doesn't exceed number of messages
+    const length = await timersLength()
+    if (messageNumber > (length - 1)) messageNumber = 0
+    const message = await callTimer(messageNumber++)
+    client.say(opts.channels[0], message)
+  }, 3000)
 };
 
 client.on('message', onMessageHandler);

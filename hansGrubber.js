@@ -15,7 +15,13 @@ const {
   editQuote,
   deleteQuote,
 } = require('./controllers/quotes');
-const { callTimer, timersLength } = require('./controllers/timers')
+const { 
+  callTimer,
+  timersLength,
+  addTimer,
+  removeTimer,
+  timerList
+} = require('./controllers/timers')
 const { errorLogging } = require('./errors/errors');
 const opts = require('./opts');
 
@@ -74,6 +80,15 @@ onMessageHandler = async (channel, user, msg, self) => {
         break;
       case '!deletequote':
         response = await deleteQuote(msg, user);
+        break;
+      case '!addtimer':
+        response = await addTimer(msg, user);
+        break;
+      case '!removetimer':
+        response = await removeTimer(msg, user);
+        break;
+      case '!timerlist':
+        response = await timerList(user);
         break;
       default:
         response = await callCommand(msg);

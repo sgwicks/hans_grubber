@@ -32,18 +32,18 @@ describe('callTimer', () => {
 
 describe('addTimer', () => {
   test('Adds a new timer message', async () => {
-    const msg = 'This is timer message #4'
+    const msg = '!addtimer This is timer message #4'
     const user = { mod: true, 'user-id': '000' };
 
     await addTimer(msg, user)
 
     const response = await callTimer(3)
 
-    expect(response).toBe(msg)
+    expect(response).toBe('This is timer message #4')
   })
 
   test('Responds with a chat message', async () => {
-    const msg = 'This is timer #4'
+    const msg = '!addtimer This is timer #4'
     const user = { mod: true, 'user-id': '000' };
 
     const response = await addTimer(msg, user)
@@ -54,7 +54,7 @@ describe('addTimer', () => {
   test('Ignores non-mod users', async () => {
     const user = { mod: false, 'user-id': '000' };
 
-    const msg = 'This is timer #4'
+    const msg = '!addtimer This is timer #4'
 
     const response = await addTimer(msg, user)
 
@@ -62,7 +62,7 @@ describe('addTimer', () => {
   })
 
   test('Permits permitted users', async () => {
-    const msg = 'This is timer #4'
+    const msg = '!addtimer This is timer #4'
     const user = { mod: false, 'user-id': broadcaster };
 
     const response = await addTimer(msg, user)
@@ -74,7 +74,7 @@ describe('addTimer', () => {
 describe('removeTimer', () => {
   test('Deletes a timer message by id', async () => {
     const user = { mod: true, 'user-id': '000' };
-    await removeTimer(4, user)
+    await removeTimer('!removetimer 4', user)
 
     const message = await callTimer(1)
 
@@ -82,14 +82,14 @@ describe('removeTimer', () => {
   })
   test('Responds with a chat message', async () => {
     const user = { mod: true, 'user-id': '000' };
-    const response = await removeTimer(4, user)
+    const response = await removeTimer('!removetimer 4', user)
 
     expect(response).toBe('Timer deleted: "Timer message #1"')
   })
   test('Ignores non-mod users', async () => {
     const user = { mod: false, 'user-id': '000' };
 
-    const response = await removeTimer(4, user)
+    const response = await removeTimer('!removetimer 4', user)
 
     expect(response).toBe('Only mods can use this command')
   })
@@ -97,7 +97,7 @@ describe('removeTimer', () => {
   test('Permits permitted users', async () => {
     const user = { mod: false, 'user-id': broadcaster };
 
-    const response = await removeTimer(4, user)
+    const response = await removeTimer('!removetimer 4', user)
 
     expect(response).toBe('Timer deleted: "Timer message #1"')
   })

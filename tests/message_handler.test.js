@@ -1,6 +1,7 @@
 const hansGrubber = require('../hansGrubber');
 const commandControllers = require('../controllers/commands');
 const quoteControllers = require('../controllers/quotes');
+const timersControllers = require('../controllers/timers')
 const tmi = require('tmi.js');
 const { shoutout } = require('../api/api')
 
@@ -20,6 +21,11 @@ const mockAddQuote = quoteControllers.addQuote;
 const mockEditQuote = quoteControllers.editQuote;
 const mockDeleteQuote = quoteControllers.deleteQuote;
 
+jest.mock('../controllers/timers')
+const mockAddTimer = timersControllers.addTimer
+const mockRemoveTimer = timersControllers.removeTimer
+const mockTimerList = timersControllers.timerList
+
 jest.mock('../api/api')
 const mockShoutout = shoutout
 
@@ -32,6 +38,9 @@ afterEach(() => {
   mockAddQuote.mockReset();
   mockEditQuote.mockReset();
   mockDeleteQuote.mockReset();
+  mockAddTimer.mockReset();
+  mockRemoveTimer.mockReset();
+  mockTimerList.mockReset();
 });
 
 describe('onMessageHandler', () => {
@@ -147,7 +156,7 @@ describe('onMessageHandler', () => {
     expect(mockShoutout).toHaveBeenCalledTimes(1)
   })
 
-  test('!so 5 second debounce lasts 3 seconds', async () => {
+  test('!so 3 second debounce lasts 3 seconds', async () => {
     const msg = '!so kikibunny'
 
     await hansGrubber.onMessageHandler(null, null, msg, null);
@@ -155,5 +164,29 @@ describe('onMessageHandler', () => {
     await hansGrubber.onMessageHandler(null, null, msg, null);
 
     expect(mockShoutout).toHaveBeenCalledTimes(2)
+  })
+
+  test('Responds to !addTimer', async () => {
+    const msg = '!addtimer timer'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null)
+
+    expect(mockAddTimer).toHaveBeenCalledWith(msg, null)
+  })
+
+  test('Responds to !removeTimer', async () => {
+    const msg = '!removetimer 4'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null)
+
+    expect(mockRemoveTimer).toHaveBeenCalledWith(msg, null)
+  })
+
+  test('Responds to !timerList', async () => {
+    const msg = '!timerlist'
+
+    await hansGrubber.onMessageHandler(null, null, msg, null)
+
+    expect(mockTimerList).toHaveBeenCalledWith(null)
   })
 });

@@ -21,16 +21,20 @@ exports.insertTimer = async (msg, user) => {
     if (!permittedUserIds.includes(user['user-id']))
       return 'Only mods can use this command'
   }
-  await connection('timers').insert({ timer_text: msg })
-  return `New timer message added: "${msg}"`
+  const timer_text = msg.slice(10)
+  await connection('timers').insert({ timer_text })
+  return `New timer message added: "${timer_text}"`
 }
 
-exports.deleteTimer = async (id, user) => {
+exports.deleteTimer = async (msg, user) => {
   if (!user.mod) {
     if (!permittedUserIds.includes(user['user-id']))
       return 'Only mods can use this command'
   }
-  const [response] = await connection('timers').where({ id }).returning('timer_text').del()
+
+  const [, id] = msg.split(' ')
+
+  const [response] = await connection('timers').where({ id: Number(id) }).returning('timer_text').del()
   return `Timer deleted: "${response}"`
 }
 

@@ -111,7 +111,7 @@ onConnectedHandler = (addr, port) => {
     if (messageNumber > (length - 1)) messageNumber = 0
     const message = await callTimer(messageNumber++)
     client.say(opts.channels[0], message)
-  }, 3000)
+  }, 600000)
 };
 
 client.on('message', onMessageHandler);

@@ -1,6 +1,6 @@
 # Hans Grubber Bot
 
-[Commands](#commands) | [Quotes](#quotes) | [Moderator Commands](#moderator-commands)
+[Commands](#commands) | [Quotes](#quotes) | [Moderator Commands](#moderator-commands) | [Timers]{#timers}
 
 ## Commands
 
@@ -23,6 +23,8 @@ Will respond with a link to a list of all existing command words
 
 > **glaivemaster:** !commandlist <br />
 > **hansGrubberBot:** http://18.133.242.218:3000/
+
+The command list page also contains a list of all stored quotes
 
 `!commandinfo <commandname>`
 
@@ -175,20 +177,53 @@ This won't change the number of any other quotes, so that if you delete a quote 
 
 ### !so
 
-Give a shoutout to another Twitch user
+Give a shoutout to another Twitch user. This command has a 3 second cooldown, to prevent unintentional spamming
 
 `!so <username>`
 
 > **shanodin:** !so glaivemaster
 >**BeelzegrubBot:** Please take a moment to check out some Crusader Kings 3 action with glaivemaster. Give them a follow at twitch.tv/glaivemaster and check out their amazing content!
 
+## Timers
+
+### !addtimer
+
+Add a new message to the list of timed messages
+
+`!addtimer <msg>`
+
+> **shanodin:** !addtimer Hey, did you know you can now set timer messages? Just use the (moderator-only) !addtimer command with your new message
+> **BeelzegrubBot:** New timer message added: "Hey, did you know..."
+> _Time Passes_
+> **BeelzegrubBot:** Hey, did you know...
+
+### !removetimer
+
+Remove a message from the timed messages list
+
+`!removetimer <id>`
+
+> **shanodin:** !removetimer 4
+> **BeelzegrubBot:** Timer message deleted: "Hey, did you know..."
+
+### !timerlist
+
+Post a list of timer message snippets and their id numbers
+
+`!timerlist`
+
+> **shanodin:** !timerlist
+> **BeelzegrubBot:** { 1. Each command is a snippet }, { 2. So you won't absolutely f }, { 5. The number is the id numb }, { 8. Use this id for the delet }
+
+- Each command is a snippet of the first 25 characters
+- So you won't absolutely fill chat
+- The number is the id number of the timer in the database
+- Use this id for the delete command aboce
+
 ## To Do
 
-- ~~Return quote number with quote text
 - Implement only changing game on a quote
-- ~~Re-implement `!so` command
-- ~~Add subscriber/VIP/user capability to `!addquote`
 - Add a `quotelist` command similar to `commandlist`
+  - Including new sub page
 - Auto-moderation?
-- Timer messages
 - Timer command to add a timer to the screen (or at least create an alert when time is up)

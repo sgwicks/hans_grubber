@@ -1,93 +1,59 @@
 module.exports = [
-  {
-    command_name: 'morning',
-    command_text: 'Morning',
-  },
-  {
-    command_name: 'danger',
-    command_text: 'shanodFine Danger Heal! shanodFine',
-  },
-  {
-    command_name: 'bit',
-    command_text:
-      "If you enjoyed my Hollow Knight content then I know you'll love bit_heist - follow him over on twitch.tv/bit_heist where he streams randomisers, bingos, and speedruns.",
-  },
-  {
-    command_name: 'blog',
-    command_text:
-      'My latest blog post can be found here: https://shanodin.co.uk/how-to-support-streamers-creators/',
-  },
-  {
-    command_name: 'bye',
-    command_text: 'EarthDay Bye, have a good time zone. EarthDay',
-  },
-  { command_name: 'cat', command_text: '(=ↀωↀ=)' },
-  {
-    command_name: 'discord',
-    command_text:
-      "Come and join shanodin's stream team on discord https://discord.gg/wY54XJg we'd love to have you there.",
-  },
-  {
-    command_name: 'ellie',
-    command_text:
-      'If you love my community I bet you could find a home over with EllieJoyPanic at twitch.tv/elliejoypanic - she plays "hard and soft" games like Bloodborne and Animal Crossing.',
-  },
-  {
-    command_name: 'gfx',
-    command_text:
-      'My axolotl emote was made by LootboxGFX. I highly recommend them, their work is amazing and they were so accommodating to work with. https://twitter.com/LootboxGFX to get in touch.',
-  },
-  {
-    command_name: 'grub',
-    command_text: 'hollowGrub hollowGrub GRUB! hollowGrub hollowGrub',
-  },
-  {
-    command_name: 'humble',
-    command_text:
-      "I am a Humble Partner. If you use my partner link to buy games from the Humble store, you can support me and also the charity Shelter. Here's the link: https://www.humblebundle.com/store/?partner=shanodin",
-  },
-  {
-    command_name: 'hydrate',
-    command_text: 'SabaPing Take a sip SabaPing',
-  },
-  {
-    command_name: 'mods',
-    command_text:
-      "I'm using Living Skyrim, which is a complete overhaul including over 800 mods - https://www.wabbajack.org/#/modlists/info?machineURL=living_skyrim",
-  },
-  {
-    command_name: 'music',
-    command_text:
-      'I use StreamBeats (free music for Streamers) - https://www.youtube.com/channel/UCQ6hCusHlsIDXqoTbbTHSUQ',
-  },
-  {
-    command_name: 'psyche',
-    command_text:
-      "If you love purple and also spaaaace, I know you'll love Psyche over at twitch.tv/psyche. She's an absolute master of Elite: Dangerous, and her chat is full of hilarious people and commands (try !hot and !pls)",
-  },
-  {
-    command_name: 'resourcepack',
-    command_text:
-      'I am using PureBDcraft, which you can get here: https://bdcraft.net/downloads/purebdcraft-minecraft/',
-  },
-  {
-    command_name: 'retweet',
-    command_text:
-      'Hey - retweeting my "go live" tweet and encouraging people to come and join in is a great free way to support me. https://twitter.com/shanodin',
-  },
-  { command_name: 'safety', command_text: 'Safety kick!' },
-  {
-    command_name: 'shaders',
-    command_text:
-      "I am using Sildur's Vibrant Shaders - get them here: https://sildurs-shaders.github.io/downloads/",
-  },
-  {
-    command_name: 'stop',
-    command_text: 'shanodLol Stop reading chat! shanodLol',
-  },
-  {
-    command_name: 'water',
-    command_text:
-      'shanodLol Water is good, and you should drink some! shanodLol',
-  },
-];
+{ command_name:`resourcepack`, command_text: `I am using PureBDcraft, which you can get here: https://bdcraft.net/downloads/purebdcraft-minecraft/`},
+{ command_name:`retweet`, command_text: `Hey - retweeting my "go live" tweet and encouraging people to come and join in is a great free way to support me. https://twitter.com/shanodin`},
+{ command_name:`bingo`, command_text: `A list of goals that can be completed. Starting with 0 required and more being added via donation incentives. Current required squares:`},
+{ command_name:`raid2`, command_text: `VirtualHug This is a Grub Club raid! WE GRUB YOU VirtualHug`},
+{ command_name:`morning`, command_text: `Morning all`},
+{ command_name:`hydrate`, command_text: `SabaPing Take a sip SabaPing`},
+{ command_name:`addcommand`, command_text: `commandname commandtext`},
+{ command_name:`grub`, command_text: `hollowGrub hollowGrub GRUB! hollowGrub hollowGrub`},
+{ command_name:`raid1`, command_text: `shanodG This is a Grub Club raid! WE GRUB YOU shanodG`},
+{ command_name:`bonk`, command_text: `shanodFp That's gonna leave a mark shanodFp`},
+{ command_name:`language`, command_text: `English only please, Solamente ingles por favor, Anglais seulement s'il vous plaît, Nur auf Englisch bitte, Kun Engelsk takk, يرجى التحدث باللغة الإنجليزية, Béarla amháin le do thoil, Endast engelska Tack, англий?кий только пожалуй?та, Alleen engels alsjeblieft, Proszę pisac po angielsku`},
+{ command_name:`switch`, command_text: `Friend code: 5099-3416-4700`},
+{ command_name:`backseat`, command_text: `Please mind the backseating until asked by strimmer.`},
+{ command_name:`december`, command_text: `Happy Holidays! Get in on the Grub Club Christmas Tree https://bit.ly/36IGamI // sub or resub for a bauble // 100 - 999 bits or £1 - £9.99 tip for fairy light // 1000+ bits or £10+ tip for a gift under the tree // gift 5+ subs for some tinsel`},
+{ command_name:`charity`, command_text: `SpecialEffect is a UK-based charity which uses video games and technology to enhance the quality of life of people with disabilities. Find out more at www.specialeffect.org.uk`},
+{ command_name:`nuzlocke`, command_text: `I am using the rule set laid out in the "Mandatory Nuzlock Rules" section on this page https://bit.ly/33FMGIX`},
+{ command_name:`gameblast`, command_text: `The Grub Club are taking part in #gameblast21 to raise money for Special Effect! Join us 11am Sun 28th Feb (GMT) for our awesome 8-hour charity stream! Donate here! https://tiltify.com/@shanodin/grub-club-for-special-effect`},
+{ command_name:`mods`, command_text: `Here's a list of the Skyrim mods used in today's Cheese Quest for Gendered Intelligence: https://shanodin.co.uk/skyrim-mod-list/`},
+{ command_name:`ellie`, command_text: `If you love my community I bet you could find a home over with EllieJoyPanic at twitch.tv/elliejoypanic - she plays "hard and soft" games like Bloodborne and Animal Crossing.`},
+{ command_name:`cat`, command_text: `(=ↀωↀ=)`},
+{ command_name:`lifegoals`, command_text: `StinkyCheese STEAL THE CHEESE StinkyCheese`},
+{ command_name:`merch`, command_text: `Guess what?! You can now support The Grub Club and shanodin by buying merch! https://merch.streamelements.com/shanodin - get grubby.`},
+{ command_name:`psyche`, command_text: `If you love purple and also spaaaace, I know you'll love Psyche over at twitch.tv/psyche. She's an absolute master of Elite: Dangerous, and her chat is full of hilarious people and commands (try !hot and !pls)`},
+{ command_name:`safety`, command_text: `Safety kick!`},
+{ command_name:`rip`, command_text: `Fade (Scorbunny d. 04.12.2020) | Johno (Vulpix d. 08.12.2020)`},
+{ command_name:`music`, command_text: `This stream uses Chillhop, free music for creators! Check it out here: https://chillhop.ffm.to/creatorcred`},
+{ command_name:`lurk`, command_text: `We Love Lurkers shanodG`},
+{ command_name:`roster`, command_text: `Sam (Corvisquire) | Ouro (Gyarados) | Angedelo (Vileplume) | Tom (Sirfetch'd) | Natabee (Vespiquen) | Justin (Drilbur)`},
+{ command_name:`cheesecount`, command_text: `103`},
+{ command_name:`patreon`, command_text: `Please consider supporting shanodin on Patreon for even more content and a way better money in/money out ratio www.patreon.com/shanodin`},
+{ command_name:`discord`, command_text: `Come and join shanodin's stream team on discord https://discord.gg/wY54XJg we'd love to have you there.`},
+{ command_name:`gorb`, command_text: `shanodG ASCEND! shanodG`},
+{ command_name:`pronouns`, command_text: `We recommend the Chrome extension for viewing pronouns in Twitch chat (Firefox version in dev). Set up your pronouns for anyone who uses the extension to see (even if you can't use it yourself) https://pronouns.alejo.io/ || download the extension and see other's pronouns: https://tinyurl.com/y4lekkx9`},
+{ command_name:`water`, command_text: `shanodLol Water is good, and you should drink some! shanodLol`},
+{ command_name:`rando`, command_text: `All items, spells, skills, relics, rancid eggs, Dreamers, charms, keys, geo chests, mask shards, vessel fragments, pale ores, and charm notches have had their locations randomised!`},
+{ command_name:`quiz`, command_text: `https://bit.ly/38Rz0fG`},
+{ command_name:`shaders`, command_text: `I am using Sildur's Vibrant Shaders - get them here: https://sildurs-shaders.github.io/downloads/`},
+{ command_name:`cheese`, command_text: `You mean solid milk?`},
+{ command_name:`newhome`, command_text: `I guess I live here now?`},
+{ command_name:`humble`, command_text: `I am a Humble Partner. If you use my partner link to buy games from the Humble store, you can support me and also the charity Shelter. Here's the link: https://www.humblebundle.com/store/?partner=shanodin`},
+{ command_name:`gfx`, command_text: `My axolotl emote was made by LootboxGFX. I highly recommend them, their work is amazing and they were so accommodating to work with. https://twitter.com/LootboxGFX to get in touch.`},
+{ command_name:`blog`, command_text: `My latest blog post can be found here: https://shanodin.co.uk/blog/`},
+{ command_name:`arewethereyet`, command_text: `No backseating, dammit!`},
+{ command_name:`stop`, command_text: `shanodLol Stop reading chat! shanodLol`},
+{ command_name:`bye`, command_text: `EarthDay Bye, have a good time zone. EarthDay`},
+{ command_name:`butt`, command_text: `BUTT!`},
+{ command_name:`save`, command_text: `A Good Point To Save Hard`},
+{ command_name:`who`, command_text: `I'm streaming with some awesome fellow fundraisers from Team Panic - check them out here! https://twitter.com/elliejoypanic/status/1363674521459326979?s=20`},
+{ command_name:`hugs`, command_text: `shanodHug shanodHug shanodHug shanodHug shanodHug shanodHug shanodHug`},
+{ command_name:`donate`, command_text: `https://www.justgiving.com/fundraising/grub-club-nas`},
+{ command_name:`pockets`, command_text: `Pockets ain't empty cuz!`},
+{ command_name:`danger`, command_text: `shanodFine Danger Heal! shanodFine`},
+{ command_name:`bit`, command_text: `If you enjoyed my Hollow Knight content then I know you'll love bit_heist - follow him over on twitch.tv/bit_heist where he streams randomisers, bingos, and speedruns.`},
+{ command_name:`game`, command_text: `Today we're playing a game called Lacuna, a modernised point and click set in a noir city. Check it out here: https://uberstrategist.link/Shanodin-Lacuna and wishlist/buy it on Steam today!`},
+{ command_name:`autismama`, command_text: `I am answering questions about autism! Please either ask your question in chat or submit anonymously here: https://forms.gle/f75oFGmUHkg72hnV9`},
+{ command_name:`buttsbot`, command_text: `buttsbot is a bot that replaces random parts of random messages with "butt". Use the command !ignoreme to get buttsbot to ignore your messages`},
+{ command_name:`rkg`, command_text: `shanodin is a proud member of Team Radically Kind Gamers, aiming to spread love and kindness through gaming. Find the other team members on the team page: https://www.twitch.tv/team/radicallykindgamers && find out more on the team Twitter: https://twitter.com/RKGamersTeam`},
+]

@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV || 'dev';
 const { user, password } = require('./user');
 
 const baseConfig = {
-  client: 'pg',
+  client: 'mysql2',
   migrations: {
     directory: './db/migrations',
   },

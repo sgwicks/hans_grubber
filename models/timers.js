@@ -11,7 +11,7 @@ exports.getTimersLength = async () => {
 
 exports.selectTimer = async (id = 0) => {
   const timers = await connection('timers')
-    .select('timer_text', 'id')
+    .select('timer_text')
 
   return timers[id].timer_text
 }

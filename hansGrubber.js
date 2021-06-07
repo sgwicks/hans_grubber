@@ -108,8 +108,12 @@ onConnectedHandler = (addr, port) => {
   setInterval(async () => {
     // Check that messageNumber doesn't exceed number of messages
     const length = await timersLength()
-    if (messageNumber > (length - 1)) messageNumber = 0
-    const message = await callTimer(messageNumber++)
+    if (messageNumber > length) messageNumber = 0
+    const message = await callTimer(messageNumber).catch(err => {
+      console.log(err)
+      console.log(`Error displaying timer text for messageNumber: ${messageNumber}`)
+    })
+    messageNumber++
     client.say(opts.channels[0], message)
   }, 600000)
 };

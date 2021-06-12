@@ -108,7 +108,7 @@ onConnectedHandler = (addr, port) => {
   setInterval(async () => {
     // Check that messageNumber doesn't exceed number of messages
     const length = await timersLength()
-    if (messageNumber > length) messageNumber = 0
+    if (messageNumber >= length) messageNumber = 0
     const message = await callTimer(messageNumber).catch(err => {
       console.log(err)
       console.log(`Error displaying timer text for messageNumber: ${messageNumber}`)

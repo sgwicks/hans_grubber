@@ -4,9 +4,8 @@ const permittedUsers = require('../user-ids');
 const permittedUserIds = Object.values(permittedUsers);
 
 exports.getTimersLength = async () => {
-  const [{ count }] = await connection('timers').count('id')
-
-  return count
+  const [count] = await connection('timers').count('id')
+  return count["count(`id`)"]
 }
 
 exports.selectTimer = async (id = 0) => {

@@ -56,7 +56,7 @@ exports.insertCommand = async (msg, user) => {
     return `Added command !${command_name} -> "${command_text}"`;
   } catch (err) {
     switch (err.code) {
-      case '23505':
+      case 'ER_DUP_ENTRY':
         return `Add command failed: command !${command_name} already exists`;
       default:
         return errorLogging(err);

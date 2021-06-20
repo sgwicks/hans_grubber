@@ -81,7 +81,7 @@ exports.updateCommand = async (msg, user) => {
       .where({ command_name })
       .update({ command_text }, ['command_text']);
 
-    if (!exists.length)
+    if (!exists)
       return `Edit command failed: command !${command_name} does not exist`;
 
     return `Updated command !${command_name} -> "${command_text}"`;

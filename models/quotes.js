@@ -99,36 +99,30 @@ exports.updateQuote = async (msg, user) => {
     // If nothing provided, throw error
     if (!quote_text & !quote_game) throw { code: '00000' };
 
-    let newQuote;
-
     if (quote_text.startsWith('!game')) {
       // If quote_game but no quote_text, just update game
-      const response = await connection('quotes')
+      await connection('quotes')
         .update({ quote_game })
         .where({ id })
-        .returning('*');
-      newQuote = response[0];
     } else {
       // Use quote text and quote game
-      const response = await connection('quotes')
-        .update({ quote_text, quote_game })
+      await connection('quotes')
         .where({ id })
-        .returning('*');
-
-      newQuote = response[0];
+        .update({ quote_text, quote_game })
     }
 
+    const [newQuote] = await connection('quotes').where({ id })
     if (!newQuote) throw { code: '99999' };
 
     return newQuote.quote_game
-      ? `Edited quote ${id} -> "${newQuote.quote_text} (${newQuote.quote_game})"`
-      : `Edited quote ${id} -> "${newQuote.quote_text}"`;
+      ? `Edited quote ${newQuote.id} -> "${newQuote.quote_text} (${newQuote.quote_game})"`
+      : `Edited quote ${newQuote.id} -> "${newQuote.quote_text}"`;
   } catch (err) {
     errorLogging(err);
     const errorMsg = 'Edit quote failed:';
 
     switch (err.code) {
-      case '22P02':
+      case 'ER_BAD_FIELD_ERROR':
         return `${errorMsg} no quote number provided`;
       case '99999':
         return `${errorMsg} quote number ${id} does not exist`;
@@ -155,7 +149,7 @@ exports.delQuote = async (msg, user) => {
     const errorMsg = 'Delete quote failed:';
 
     switch (err.code) {
-      case '22P02':
+      case 'ER_BAD_FIELD_ERROR':
         return `${errorMsg} no quote number provided`;
       case '00000':
         return `${errorMsg} quote number ${id} does not exist`;

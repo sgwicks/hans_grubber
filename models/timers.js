@@ -30,11 +30,13 @@ exports.deleteTimer = async (msg, user) => {
     if (!permittedUserIds.includes(user['user-id']))
       return 'Only mods can use this command'
   }
-
   const [, id] = msg.split(' ')
 
-  const [response] = await connection('timers').where({ id: Number(id) }).returning('timer_text').del()
-  return `Timer deleted: "${response}"`
+  const [response] = await connection('timers').where({ id: Number(id) })
+
+  await connection('timers').where({ id: Number(id) }).del()
+
+  return `Timer deleted: "${response.timer_text}"`
 }
 
 exports.getTimerList = async (user) => {
